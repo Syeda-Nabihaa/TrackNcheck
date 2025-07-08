@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:get/get.dart';
-import 'package:trackncheck/Login.dart';
 import 'package:trackncheck/components/Button.dart';
+import 'package:trackncheck/components/InputFields.dart';
 import 'package:trackncheck/components/TextWidgets.dart';
 import 'package:trackncheck/components/constants.dart';
 
 class SignUp extends StatelessWidget {
-  const SignUp({super.key});
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -15,68 +13,63 @@ class SignUp extends StatelessWidget {
       backgroundColor: ColorConstants.bgColor,
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Container(
-          height: MediaQuery.of(context).size.height,
-          alignment: Alignment.center,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(child: TitleWidget(text: "Lets Get Started")),
-              SizedBox(height: 10),
-              SizedBox(
-                width: 200,
-                child: SubTitle(text: "Your Daily product safety assistant"),
-              ),
-              SizedBox(height: 20),
-              SizedBox(
-                width: 400,
-                child: CustomButton(
-                  text: "Sign Up With Email",
-                  onPressed: () {},
-                  color: ColorConstants.fieldsColor,
-                  textColor: Colors.white,
-                  icon: FontAwesomeIcons.envelope,
-                ),
-              ),
-              SizedBox(height: 20),
-              SubTitle(text: "Or use instant sign up"),
-              SizedBox(height: 20),
-              SizedBox(
-                width: 400,
-                child: CustomButton(
-                  text: "Sign Up With Google",
-                  onPressed: () {},
-                  color: ColorConstants.bgColor,
-                  textColor: Colors.white,
-                  icon: FontAwesomeIcons.google,
-                ),
-              ),
-              SizedBox(height: 20),
-              SizedBox(
-                width: 400,
-                child: CustomButton(
-                  text: "Sign Up With apple",
-                  onPressed: () {},
-                  color: ColorConstants.bgColor,
-                  textColor: Colors.white,
-                  icon: FontAwesomeIcons.apple,
-                ),
-              ),
-              SizedBox(height: 20),
-              SubTitle(text: "Already Have An account?"),
-              TextButton(
-                onPressed: () {
-                  Get.to(Login());
-                },
-                child: Text(
-                  "Sign in",
-                  style: TextStyle(
-                    fontSize: 17,
-                    color: ColorConstants.mainColor,
+        child: Form(
+          key: _formKey,
+          child: Container(
+            height: MediaQuery.of(context).size.height, // full screen height
+            alignment: Alignment.center,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(child: TitleWidget(text: "Create New Account")),
+                SizedBox(height: 20),
+
+                SizedBox(
+                  width: 450,
+                  child: Column(
+                    children: [
+                      Inputfields(
+                        icon: Icons.email,
+                        hintText: "Enter Your Email",
+                        emptyFields: "Please fill out this fields",
+                        emailError: "Incorrect Email Format",
+                      ),
+                      SizedBox(height: 10),
+                      Inputfields(
+                        icon: Icons.phone,
+                        hintText: "Enter Your Phone Number",
+
+                        emptyFields: "Please fill out this fields",
+                      ),
+                      SizedBox(height: 10),
+                      Inputfields(
+                        icon: Icons.lock,
+                        hintText: "Enter Your Password",
+                        suffixIcon: Icons.remove_red_eye,
+                        emptyFields: "Please fill out this fields",
+                      ),
+
+                      SizedBox(height: 20),
+
+                      SizedBox(
+                        width: 450,
+                        child: Button(
+                          text: "Sign In",
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              print("sign up successfuly");
+                            } else {
+                              // Validation failed
+                              print("Form is invalid");
+                            }
+                          },
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

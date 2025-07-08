@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "947913333322",
+    "project_id": "trackncheck-c6b75",
+    "storage_bucket": "trackncheck-c6b75.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:947913333322:android:3f36cf5cde8bb133e4e4b3",
+        "android_client_info": {
+          "package_name": "com.example.trackncheck"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmoLDeSFVPBCR4kZfeyeSuK_-s8r-Bhx8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
