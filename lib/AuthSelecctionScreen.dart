@@ -21,7 +21,7 @@ class AuthSelection extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(child: TitleWidget(text: "Lets Get Started")),
+              SizedBox(child: TitleWidget(text: "Lets Get Started",fontsize: 35,)),
               SizedBox(height: 10),
               SizedBox(
                 width: 200,

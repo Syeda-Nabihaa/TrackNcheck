@@ -5,27 +5,34 @@ class Inputfields extends StatelessWidget {
   final Color bgcolor;
   final Color color;
   final IconData icon;
-  final IconData? suffixIcon;
+  final Widget? suffixicon;
   final String hintText;
   final String emptyFields;
+  final TextEditingController? controller;
   final String? emailError;
-  
+  final bool obscureText;
+
 
   const Inputfields({
     super.key,
     this.bgcolor = ColorConstants.fieldsColor,
-    this.suffixIcon,
-    required this.emptyFields,
+    this.suffixicon,
     
+    this.controller,
+    required this.emptyFields,
+
     this.emailError,
     this.color = Colors.grey,
     required this.icon,
     required this.hintText,
+    this.obscureText = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: controller,
+      obscureText: obscureText,
       style: TextStyle(color: color),
       decoration: InputDecoration(
         contentPadding: EdgeInsets.symmetric(vertical: 25.0, horizontal: 24.0),
@@ -42,20 +49,22 @@ class Inputfields extends StatelessWidget {
         hintText: hintText,
         prefixIcon: Icon(icon, color: color),
         hintStyle: TextStyle(color: color),
-        suffixIcon: IconButton(
-          onPressed: () {},
-          icon: Icon(suffixIcon, color: color),
-        ),
+        suffixIcon: suffixicon
       ),
-      validator: (value) {
-        if (value!.isEmpty) {
-          return emptyFields;
-        }
-        if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
-          return emailError;
-        }
-         return null;
-      },
+
+      //      validator: (value) {
+      //   if (value == null || value.isEmpty) {
+      //     return emptyFields;
+      //   }
+
+      //   // ✅ Only run email regex if emailError is provided
+      //   if (emailError != null &&
+      //       !RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+      //     return emailError;
+      //   }
+
+      //   return null;
+      // },
     );
   }
 }

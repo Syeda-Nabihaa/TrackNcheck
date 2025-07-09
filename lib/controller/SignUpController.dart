@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:trackncheck/components/AlertWidget.dart';
 import 'package:trackncheck/model/UserModel.dart';
-
 
 class Signupcontroller extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -13,9 +13,10 @@ class Signupcontroller extends GetxController {
   var isVisible = false.obs;
 
   Future<UserCredential?> SignUpMethod(
+    String name,
     String email,
-    String password,
     String phoneNumber,
+    String password,
   ) async {
     try {
       EasyLoading.show(status: 'Please wait');
@@ -25,9 +26,10 @@ class Signupcontroller extends GetxController {
 
       Usermodel usermodel = Usermodel(
         id: userCredential.user!.uid,
+        name: name,
         email: email,
-        password: password,
         phoneNumber: phoneNumber,
+        password: password,
       );
 
       _firebaseFireStore
@@ -38,6 +40,11 @@ class Signupcontroller extends GetxController {
       return userCredential;
     } on FirebaseAuthException catch (e) {
       EasyLoading.dismiss();
+      // AlertWidget(
+      //   message: "Error",
+      //   subtext: e.message ?? 'Some Error occured',
+      //   icon: Icons.error,
+      // );
       Get.snackbar(
         'Error',
         e.message ?? 'Some Error Occured..',
