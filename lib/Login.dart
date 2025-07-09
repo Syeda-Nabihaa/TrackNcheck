@@ -21,7 +21,7 @@ class Login extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(child: TitleWidget(text: "Hello Again!")),
+                SizedBox(child: TitleWidget(text: "Hello Again!",fontsize: 35,)),
                 SizedBox(height: 10),
                 SizedBox(
                   width: 200,
@@ -42,7 +42,7 @@ class Login extends StatelessWidget {
                       Inputfields(
                         icon: Icons.lock,
                         hintText: "Enter Your Password",
-                        suffixIcon: Icons.remove_red_eye,
+                        // suffixicon: Icons.remove_red_eye,
                         emptyFields: "Please fill out this fields",
                       ),
                       SizedBox(height: 10),

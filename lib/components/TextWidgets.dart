@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 class TitleWidget extends StatelessWidget {
   final String text;
-  const TitleWidget({super.key, required this.text});
+  final double fontsize;
+  const TitleWidget({super.key, required this.text, required this.fontsize});
 
   @override
   Widget build(BuildContext context) {
@@ -11,9 +12,9 @@ class TitleWidget extends StatelessWidget {
       textAlign: TextAlign.center,
       style: TextStyle(
         fontWeight: FontWeight.bold,
-        fontSize: 35,
+        fontSize: fontsize,
         color: Colors.white,
-        letterSpacing: 3.0
+        letterSpacing: 3.0,
       ),
     );
   }
@@ -21,7 +22,7 @@ class TitleWidget extends StatelessWidget {
 
 class SubTitle extends StatelessWidget {
   final String text;
-  
+
   const SubTitle({super.key, required this.text});
 
   @override
@@ -33,7 +34,7 @@ class SubTitle extends StatelessWidget {
         // fontWeight: FontWeight.bold,
         fontSize: 17,
         color: Colors.grey,
-         letterSpacing: 2.0
+        letterSpacing: 2.0,
       ),
     );
   }

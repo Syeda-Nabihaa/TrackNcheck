@@ -31,7 +31,7 @@ class Customavatar extends StatelessWidget {
       ),
       child: CircleAvatar(
         backgroundColor: color,
-        radius: 110,
+        radius: radius,
         child: Icon(
           icon,
           color: textColor,

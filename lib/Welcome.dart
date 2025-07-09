@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:trackncheck/components/AlertWidget.dart';
 import 'package:trackncheck/components/Button.dart';
 import 'package:trackncheck/components/CustomAvatar.dart';
 import 'package:trackncheck/components/constants.dart';
@@ -16,8 +17,11 @@ class WelcomeScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-           
-            Customavatar(radius: 110, icon:  Icons.account_tree_outlined, size: 100),
+            Customavatar(
+              radius: 110,
+              icon: Icons.account_tree_outlined,
+              size: 100,
+            ),
 
             SizedBox(height: 20),
             SizedBox(
@@ -65,6 +69,11 @@ class WelcomeScreen extends StatelessWidget {
                 text: "Get Started",
                 onPressed: () {
                   Get.offAll(Navigationbar());
+                  // showDialog(
+                  //   context: context,
+                  //   barrierDismissible: true,
+                  //   builder: (_) => AlertWidget(message: "Successfully registerd", subtext: "congratulation you made it", icon: Icons.ac_unit_outlined,),
+                  // );
                 },
               ),
             ),
