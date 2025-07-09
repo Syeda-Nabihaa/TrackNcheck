@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'package:trackncheck/Home.dart';
+import 'package:trackncheck/account.dart';
 import 'package:trackncheck/components/constants.dart';
+import 'package:trackncheck/history.dart';
 
 class Navigationbar extends StatefulWidget {
   const Navigationbar({super.key});
@@ -16,9 +18,8 @@ class _NavigationbarState extends State<Navigationbar> {
   final List<Widget> pages = [
     HomeScreen(),
     Center(child: Text("Ai")),
-
-    Center(child: Text("history")),
-    Center(child: Text("account")),
+    ScanHistoryPage(),
+    UserAccountPage(),
   ];
 
   void onItemTapped(int index) {
@@ -30,10 +31,9 @@ class _NavigationbarState extends State<Navigationbar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     
       body: pages[selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
-      showSelectedLabels: true,
+        showSelectedLabels: true,
         backgroundColor: Color(0xff101729),
         currentIndex: selectedIndex,
         onTap: onItemTapped,
@@ -46,11 +46,8 @@ class _NavigationbarState extends State<Navigationbar> {
             icon: Icon(Icons.account_tree_outlined),
             label: 'Ai Assistant',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.history),
-            label: 'History',
-          ),
-         
+          BottomNavigationBarItem(icon: Icon(Icons.history), label: 'History'),
+
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle_rounded),
             label: 'Account',

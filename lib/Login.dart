@@ -27,7 +27,7 @@ class Login extends StatelessWidget {
               ),
               SizedBox(height: 20),
               SizedBox(
-                width: 450,
+                width: 380,
                 child: Column(
                   children: [
                     Inputfields(

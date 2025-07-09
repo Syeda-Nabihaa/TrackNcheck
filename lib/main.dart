@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:trackncheck/Login.dart';
-import 'package:trackncheck/SignUp.dart';
-import 'package:trackncheck/Welcome.dart';
-import 'package:trackncheck/components/navigationBar.dart';
+import 'package:trackncheck/account.dart';
+import 'package:trackncheck/privacy_policy.dart';
 
 
 void main() {
@@ -17,7 +15,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: SignUp()
+      theme: ThemeData(
+        appBarTheme: AppBarTheme(iconTheme: IconThemeData(color: Colors.white)),
+      ),
+      home: UserAccountPage(),
     );
   }
 }

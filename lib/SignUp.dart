@@ -29,7 +29,7 @@ class SignUp extends StatelessWidget {
               ),
               SizedBox(height: 20),
               SizedBox(
-                width: 400,
+                width: 380,
                 child: CustomButton(
                   text: "Sign Up With Email",
                   onPressed: () {},
@@ -42,7 +42,7 @@ class SignUp extends StatelessWidget {
               SubTitle(text: "Or use instant sign up"),
               SizedBox(height: 20),
               SizedBox(
-                width: 400,
+                width: 380,
                 child: CustomButton(
                   text: "Sign Up With Google",
                   onPressed: () {},
@@ -53,7 +53,7 @@ class SignUp extends StatelessWidget {
               ),
               SizedBox(height: 20),
               SizedBox(
-                width: 400,
+                width: 380,
                 child: CustomButton(
                   text: "Sign Up With apple",
                   onPressed: () {},
