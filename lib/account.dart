@@ -19,7 +19,7 @@ class UserAccountPage extends StatelessWidget {
         padding: const EdgeInsets.all(12.0),
         child: Column(
           children: [
-            TitleWidget(text: 'Account'),
+            TitleWidget(text: 'Account', fontsize: 20,),
             SizedBox(height: 15),
             // Profile Card
             Container(

@@ -3,21 +3,21 @@ class Usermodel {
   final String name;
   final String email;
   final String password;
-  final String phoneNumber;
+ 
 
   Usermodel({
     required this.id,
     required this.name,
     required this.email,
     required this.password,
-    required this.phoneNumber,
+   
   });
   Map<String, dynamic> toMap() {
     return {
       'id': id,
       'email': email,
       'password': password,
-      'number': phoneNumber,
+    
     };
   }
 
@@ -27,7 +27,7 @@ class Usermodel {
       name: json['name'],
       email: json['email'],
       password: json['password'],
-      phoneNumber: json['phoneNumber'],
+   
     );
   }
 }

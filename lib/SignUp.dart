@@ -14,7 +14,7 @@ class SignUp extends StatelessWidget {
   final name = TextEditingController();
   final email = TextEditingController();
   final password = TextEditingController();
-  final number = TextEditingController();
+
   final Signupcontroller signupcontroller = Get.put(Signupcontroller());
 
   @override
@@ -56,29 +56,29 @@ class SignUp extends StatelessWidget {
                         // emailError: "Incorrect Email Format",
                       ),
                       SizedBox(height: 10),
-                      Inputfields(
-                        controller: number,
-                        icon: Icons.phone,
-                        hintText: "Enter Your Phone Number",
 
-                        emptyFields: "Please fill out this fields",
-                      ),
-                      SizedBox(height: 10),
-                       Inputfields(
-                          controller: password,
-                          icon: Icons.lock,
-                          hintText: "Enter Your Password",
-                         suffixicon: GestureDetector(
-      onTap: () {
-        signupcontroller.isVisible.toggle();
-      },
-      child: signupcontroller.isVisible.value
-          ? FaIcon(FontAwesomeIcons.eyeSlash, color: Colors.grey)
-          : FaIcon(FontAwesomeIcons.eye, color: Colors.grey),
-    ),
-                          emptyFields: "Please fill out this field",
-                          obscureText: !signupcontroller.isVisible.value,
+                          Obx(()=>Inputfields(
+                        controller: password,
+                        icon: Icons.lock,
+                        hintText: "Enter Your Password",
+                        suffixicon: GestureDetector(
+                          onTap: () {
+                            signupcontroller.isVisible.toggle();
+                          },
+                          child:
+                              signupcontroller.isVisible.value
+                                  ? FaIcon(
+                                    FontAwesomeIcons.eyeSlash,
+                                    color: Colors.grey,
+                                  )
+                                  : FaIcon(
+                                    FontAwesomeIcons.eye,
+                                    color: Colors.grey,
+                                  ),
                         ),
+                        emptyFields: "Please fill out this field",
+                        obscureText: !signupcontroller.isVisible.value,
+                      ),),
                       
 
                       SizedBox(height: 20),
@@ -94,13 +94,11 @@ class SignUp extends StatelessWidget {
                               name: name,
                               email: email,
                               password: password,
-                              number: number,
                             );
                           },
                         ),
                       ),
                     ],
-
                   ),
                 ),
               ],

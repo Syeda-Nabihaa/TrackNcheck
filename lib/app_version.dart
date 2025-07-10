@@ -17,7 +17,7 @@ class AppVersionPage extends StatelessWidget {
         child: Center(
           child: Column(
             children: const [
-              TitleWidget(text: 'App Version'),
+              TitleWidget(text: 'App Version', fontsize: 24,),
               SizedBox(height: 15,),
               Icon(Icons.verified, size: 80, color:ColorConstants.mainColor),
               SizedBox(height: 24),

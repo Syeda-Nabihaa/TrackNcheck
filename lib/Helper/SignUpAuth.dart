@@ -14,63 +14,62 @@ class Signupauth {
     required BuildContext context,
     required TextEditingController name,
     required TextEditingController email,
-    required TextEditingController number,
     required TextEditingController password,
   }) async {
     if (formkey.currentState!.validate()) {
-      await _performSignUp(name, email,number,password);
+      await _performSignUp(name, email, password);
     } else {
       failedAlert();
     }
   }
 
- Future<void> _performSignUp(
-  TextEditingController name,
-  TextEditingController email,
-  TextEditingController number,
-  TextEditingController password,
-) async {
-  String username = name.text.trim();
-  String useremail = email.text.trim();
-  String usernumber = number.text.trim();
-  String userpassword = password.text.trim();
+  Future<void> _performSignUp(
+    TextEditingController name,
+    TextEditingController email,
+    TextEditingController password,
+  ) async {
+    String username = name.text.trim();
+    String useremail = email.text.trim();
+    String userpassword = password.text.trim();
 
-  try {
-    EasyLoading.show(status: "Registering...");
-    UserCredential? userCredential = await signupcontroller.SignUpMethod(
-      username,
-      useremail,
-      userpassword,
-      usernumber,
-    );
-    EasyLoading.dismiss();
+    try {
+      EasyLoading.show(status: "Registering...");
+      UserCredential? userCredential = await signupcontroller.SignUpMethod(
+        username,
+        useremail,
+        userpassword,
+      );
+      EasyLoading.dismiss();
 
-    if (userCredential != null) {
-      successAlert();
-      Get.to(Login());
-    } else {
+      if (userCredential != null) {
+        
+        await successAlert(); 
+        Get.to(Login());
+      } else {
+        failedAlert();
+      }
+    } catch (e) {
+      EasyLoading.dismiss();
       failedAlert();
     }
-  } catch (e) {
-    EasyLoading.dismiss();
-    failedAlert();
   }
-}
-
-
-  void successAlert() {
+Future<void> successAlert() {
+  return Get.dialog(
     AlertWidget(
       message: "Successfully registered",
-      subtext: "Congratulation ypur account has been registered",
-      icon: Icons.ac_unit_rounded,
-    );
-  }
+      subtext: "Congratulations! Your account has been registered.",
+      animation: "assets/animations/Success.json",
+    ),
+  );
+}
 
   void failedAlert() {
-    AlertWidget(
-      message: "Failed Register",
-      subtext: "spmething went wrong please try again",
-      icon: Icons.ac_unit_rounded,
+    Get.dialog(
+      AlertWidget(
+        message: "Failed Register",
+        subtext: "spmething went wrong please try again",
+        animation: "assets/animations/error.json",
+      ),
     );
   }
 }

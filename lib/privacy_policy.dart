@@ -17,7 +17,7 @@ class PrivacyPolicyPage extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              TitleWidget(text: 'Privacy Policy'),
+              TitleWidget(text: 'Privacy Policy', fontsize: 20,),
               SizedBox(height: 15,),
               const Text(
                 '''

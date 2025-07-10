@@ -15,7 +15,7 @@ class Signupcontroller extends GetxController {
   Future<UserCredential?> SignUpMethod(
     String name,
     String email,
-    String phoneNumber,
+
     String password,
   ) async {
     try {
@@ -28,7 +28,7 @@ class Signupcontroller extends GetxController {
         id: userCredential.user!.uid,
         name: name,
         email: email,
-        phoneNumber: phoneNumber,
+
         password: password,
       );
 
@@ -40,21 +40,24 @@ class Signupcontroller extends GetxController {
       return userCredential;
     } on FirebaseAuthException catch (e) {
       EasyLoading.dismiss();
-      // AlertWidget(
-      //   message: "Error",
-      //   subtext: e.message ?? 'Some Error occured',
-      //   icon: Icons.error,
-      // );
-      Get.snackbar(
-        'Error',
-        e.message ?? 'Some Error Occured..',
-        snackPosition: SnackPosition.TOP,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-        margin: EdgeInsets.all(16),
-        borderRadius: 8,
-        icon: Icon(Icons.error, color: Colors.white),
+      Get.dialog(
+        AlertWidget(
+        message: "Error",
+        subtext: e.message ?? 'Some Error occured',
+        animation: "assets/animations/error.json"
+      )
       );
+      
+      // Get.snackbar(
+      //   'Error',
+      //   e.message ?? 'Some Error Occured..',
+      //   snackPosition: SnackPosition.TOP,
+      //   backgroundColor: Colors.red,
+      //   colorText: Colors.white,
+      //   margin: EdgeInsets.all(16),
+      //   borderRadius: 8,
+      //   icon: Icon(Icons.error, color: Colors.white),
+      // );
     }
     return null;
   }

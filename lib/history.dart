@@ -15,7 +15,7 @@ class ScanHistoryPage extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: const [
-          TitleWidget(text: 'History'),
+          TitleWidget(text: 'History',fontsize: 20,),
           SizedBox(height: 15,),
           ScanHistoryItem(
             name: "Dettol Handwash",
