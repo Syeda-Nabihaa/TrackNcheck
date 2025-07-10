@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:trackncheck/Home.dart';
+import 'package:trackncheck/components/AlertWidget.dart';
 import 'package:trackncheck/components/Button.dart';
 import 'package:trackncheck/components/CustomAvatar.dart';
 import 'package:trackncheck/components/constants.dart';
@@ -17,28 +17,11 @@ class WelcomeScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Container(
-            //   decoration: BoxDecoration(
-            //     shape: BoxShape.circle,
-            //     boxShadow: [
-            //       BoxShadow(
-            //         color: const Color.fromARGB(255, 33, 47, 243).withValues(),
-            //         blurRadius: 10,
-            //         offset: Offset(0, 7), // shadow direction: bottom right
-            //       ),
-            //     ],
-            //   ),
-            //   child: CircleAvatar(
-            //     backgroundColor: ColorConstants.mainColor,
-            //     radius: 110,
-            //     child: Icon(
-            //       Icons.account_tree_outlined,
-            //       color: Colors.white,
-            //       size: 100,
-            //     ),
-            //   ),
-            // ),
-            Customavatar(radius: 110, icon:  Icons.account_tree_outlined, size: 100),
+            Customavatar(
+              radius: 110,
+              icon: Icons.account_tree_outlined,
+              size: 100,
+            ),
 
             SizedBox(height: 20),
             SizedBox(
@@ -86,6 +69,11 @@ class WelcomeScreen extends StatelessWidget {
                 text: "Get Started",
                 onPressed: () {
                   Get.offAll(Navigationbar());
+                  // showDialog(
+                  //   context: context,
+                  //   barrierDismissible: true,
+                  //   builder: (_) => AlertWidget(message: "Successfully registerd", subtext: "congratulation you made it", icon: Icons.ac_unit_outlined,),
+                  // );
                 },
               ),
             ),
