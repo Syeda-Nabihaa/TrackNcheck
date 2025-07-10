@@ -23,6 +23,7 @@ class SignUp extends StatelessWidget {
       backgroundColor: ColorConstants.bgColor,
       body: Padding(
         padding: const EdgeInsets.all(8.0),
+
         child: Form(
           key: _formKey,
           child: Container(
@@ -99,6 +100,7 @@ class SignUp extends StatelessWidget {
                         ),
                       ),
                     ],
+
                   ),
                 ),
               ],
