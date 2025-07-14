@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:trackncheck/ForgetPassword.dart';
 
 import 'package:trackncheck/Login.dart';
 import 'package:trackncheck/AuthSelecctionScreen.dart';
@@ -31,7 +32,7 @@ class MyApp extends StatelessWidget {
        theme: ThemeData(
         appBarTheme: AppBarTheme(iconTheme: IconThemeData(color: Colors.white)),
       ),
-      home: Login(),
+      home: WelcomeScreen(),
     );
   }
 }

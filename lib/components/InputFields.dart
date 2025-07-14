@@ -52,19 +52,19 @@ class Inputfields extends StatelessWidget {
         suffixIcon: suffixicon
       ),
 
-      //      validator: (value) {
-      //   if (value == null || value.isEmpty) {
-      //     return emptyFields;
-      //   }
+           validator: (value) {
+        if (value == null || value.isEmpty) {
+          return emptyFields;
+        }
 
-      //   // ✅ Only run email regex if emailError is provided
-      //   if (emailError != null &&
-      //       !RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
-      //     return emailError;
-      //   }
+        // ✅ Only run email regex if emailError is provided
+        if (emailError != null &&
+            !RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+          return emailError;
+        }
 
-      //   return null;
-      // },
+        return null;
+      },
     );
   }
 }
