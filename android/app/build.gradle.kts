@@ -1,5 +1,3 @@
-import com.android.build.api.dsl.ApplicationBuildType
-
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -21,19 +19,6 @@ android {
         multiDexEnabled = true
     }
 
-    buildTypes {
-        getByName("debug") {
-            isDebuggable = true
-        }
-        getByName("release") {
-            signingConfig = signingConfigs.getByName("debug")
-            isMinifyEnabled = true
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -45,14 +30,11 @@ android {
         jvmTarget = "11"
     }
 
-    // Fix for APK path issues
-   applicationVariants.all {
-        val variant = this
-        variant.assembleProvider.get().doLast {
-            copy {
-                from(variant.outputs.first().outputFile)
-                into("${project.buildDir.parent}/app/outputs/flutter-apk")
-            }
+    buildTypes {
+        release {
+            // TODO: Add your own signing config for the release build.
+            // Signing with the debug keys for now, so `flutter run --release` works.
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
 }

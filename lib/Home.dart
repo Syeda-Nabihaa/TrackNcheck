@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trackncheck/components/constants.dart';
+import 'package:trackncheck/scanning/Result_page.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -8,7 +9,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorConstants.bgColor,
-      body: Text("hello"),
+      body: ResultPage(),
     );
   }
 }
