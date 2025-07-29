@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
        theme: ThemeData(
         appBarTheme: AppBarTheme(iconTheme: IconThemeData(color: Colors.white)),
       ),
-      home: WelcomeScreen(),
+      home: Login(),
     );
   }
 }
