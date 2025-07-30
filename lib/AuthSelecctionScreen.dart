@@ -2,12 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:trackncheck/Login.dart';
+
+import 'package:trackncheck/components/AlertWidget.dart';
 import 'package:trackncheck/components/Button.dart';
 import 'package:trackncheck/components/TextWidgets.dart';
 import 'package:trackncheck/components/constants.dart';
+import 'package:trackncheck/components/navigationBar.dart';
+import 'package:trackncheck/controller/SignUpController.dart';
 
 class AuthSelection extends StatelessWidget {
-  const AuthSelection({super.key});
+  final Signupcontroller signupcontroller = Get.put(Signupcontroller());
+  AuthSelection({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +26,9 @@ class AuthSelection extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(child: TitleWidget(text: "Lets Get Started",fontsize: 35,)),
+              SizedBox(
+                child: TitleWidget(text: "Lets Get Started", fontsize: 35),
+              ),
               SizedBox(height: 10),
               SizedBox(
                 width: 200,
@@ -45,7 +52,18 @@ class AuthSelection extends StatelessWidget {
                 width: 400,
                 child: CustomButton(
                   text: "Sign Up With Google",
-                  onPressed: () {},
+                  onPressed: () async {
+                    var userCredential =
+                        await signupcontroller.signUpWithGoogle();
+                    if (userCredential != null) {
+                      await AlertWidget(
+                        message: "${userCredential.user?.displayName}",
+                        subtext: "congratulatio",
+                        animation: "assets/animations/Success.json",
+                      );
+                      Get.offAll(Navigationbar());
+                    }
+                  },
                   color: ColorConstants.bgColor,
                   textColor: Colors.white,
                   icon: FontAwesomeIcons.google,

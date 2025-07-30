@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:trackncheck/Helper/SignUpAuth.dart';
+import 'package:trackncheck/Services/SignUpAuth.dart';
 import 'package:trackncheck/components/Button.dart';
 import 'package:trackncheck/components/InputFields.dart';
 import 'package:trackncheck/components/TextWidgets.dart';
