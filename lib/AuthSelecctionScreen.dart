@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:trackncheck/Login.dart';
+import 'package:trackncheck/SignUp.dart';
 
 import 'package:trackncheck/components/AlertWidget.dart';
 import 'package:trackncheck/components/Button.dart';
@@ -39,7 +40,9 @@ class AuthSelection extends StatelessWidget {
                 width: 400,
                 child: CustomButton(
                   text: "Sign Up With Email",
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.to(SignUp());
+                  },
                   color: ColorConstants.fieldsColor,
                   textColor: Colors.white,
                   icon: FontAwesomeIcons.envelope,
@@ -58,7 +61,7 @@ class AuthSelection extends StatelessWidget {
                     if (userCredential != null) {
                       await AlertWidget(
                         message: "${userCredential.user?.displayName}",
-                        subtext: "congratulatio",
+                        subtext: "congratulation",
                         animation: "assets/animations/Success.json",
                       );
                       Get.offAll(Navigationbar());

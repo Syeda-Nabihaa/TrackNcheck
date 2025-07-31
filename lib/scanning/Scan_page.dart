@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:trackncheck/components/constants.dart';
 
 class ScanPage extends StatefulWidget {
   const ScanPage({super.key});
@@ -14,7 +15,7 @@ class _ScanPageState extends State<ScanPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Scan Barcode')),
+      backgroundColor: ColorConstants.bgColor,
       body: MobileScanner(
        
         controller: MobileScannerController(),

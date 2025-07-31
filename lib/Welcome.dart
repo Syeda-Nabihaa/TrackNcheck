@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:trackncheck/AuthSelecctionScreen.dart';
 // import 'package:trackncheck/components/AlertWidget.dart';
 import 'package:trackncheck/components/Button.dart';
 import 'package:trackncheck/components/CustomAvatar.dart';
@@ -69,7 +70,7 @@ class WelcomeScreen extends StatelessWidget {
               child: Button(
                 text: "Get Started",
                 onPressed: () {
-                  Get.offAll(Navigationbar());
+                  Get.offAll(AuthSelection());
                   // showDialog(
                   //   context: context,
                   //   barrierDismissible: true,
