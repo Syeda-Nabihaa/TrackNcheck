@@ -12,6 +12,7 @@ import 'package:trackncheck/components/navigationBar.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:trackncheck/firebase_options.dart';
 import 'package:trackncheck/account.dart';
+import 'package:trackncheck/logout.dart';
 import 'package:trackncheck/privacy_policy.dart';
 import 'package:trackncheck/scanning/Result_page.dart';
 

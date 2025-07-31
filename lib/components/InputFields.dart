@@ -11,6 +11,7 @@ class Inputfields extends StatelessWidget {
   final TextEditingController? controller;
   final String? emailError;
   final bool obscureText;
+  final bool readOnly;
 
 
   const Inputfields({
@@ -26,12 +27,14 @@ class Inputfields extends StatelessWidget {
     required this.icon,
     required this.hintText,
     this.obscureText = false,
+    this.readOnly = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
+      readOnly: readOnly,
       obscureText: obscureText,
       style: TextStyle(color: color),
       decoration: InputDecoration(
