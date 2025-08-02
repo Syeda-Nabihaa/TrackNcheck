@@ -16,6 +16,7 @@ import 'package:trackncheck/account.dart';
 import 'package:trackncheck/logout.dart';
 import 'package:trackncheck/privacy_policy.dart';
 import 'package:trackncheck/scanning/Result_page.dart';
+import 'package:trackncheck/splash.dart';
 
 
 void main() async {
@@ -35,7 +36,7 @@ class MyApp extends StatelessWidget {
        theme: ThemeData(
         appBarTheme: AppBarTheme(iconTheme: IconThemeData(color: Colors.white)),
       ),
-      home: HomeScreen(),
+      home: SplashScreen(),
     );
   }
 }

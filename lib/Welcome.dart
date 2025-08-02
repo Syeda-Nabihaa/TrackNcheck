@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:trackncheck/AuthSelecctionScreen.dart';
-// import 'package:trackncheck/components/AlertWidget.dart';
 import 'package:trackncheck/components/Button.dart';
 import 'package:trackncheck/components/CustomAvatar.dart';
 import 'package:trackncheck/components/constants.dart';
-import 'package:trackncheck/components/navigationBar.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
