@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:trackncheck/Services/ApiService.dart';
+import 'package:trackncheck/components/AlertWidget.dart';
 import 'package:trackncheck/components/Button.dart';
 import 'package:trackncheck/components/TextWidgets.dart';
 import 'package:trackncheck/components/constants.dart';
+import 'package:trackncheck/model/ProductModel.dart';
+import 'package:trackncheck/scanning/Halal_result.dart';
 import 'package:trackncheck/scanning/Scan_page.dart';
 
 class ResultPage extends StatefulWidget {
@@ -15,7 +18,7 @@ class ResultPage extends StatefulWidget {
 
 class _ResultPageState extends State<ResultPage> {
   String? _scannedResult;
-  Map<String, dynamic>? productDetails;
+  Product? productDetails;
   bool loading = false;
   String? error;
 
@@ -29,12 +32,19 @@ class _ResultPageState extends State<ResultPage> {
         error = null;
       });
       try {
-        final data = await fetchProductDetails(result);
+        final data = await fetchFromAllApis(result);
         setState(() {
           if (data != null) {
             productDetails = data;
           } else {
-            error = 'Product not found in OpenFoodFacts.';
+            Get.dialog(
+              AlertWidget(
+                message: "Product not found",
+                subtext: 'It only scans barcodes included in supported APIs',
+                animation: "assets/animations/error.json",
+              ),
+            );
+            // error = 'Product not found in integrste apis';
           }
         });
       } catch (e) {
@@ -87,68 +97,58 @@ class _ResultPageState extends State<ResultPage> {
                         if (productDetails != null) ...[
                           TitleWidget(text: "Product Details", fontsize: 30),
                           const SizedBox(height: 12),
-                          if (productDetails!['image_url'] != null)
+
+                          if (productDetails!.imageUrl != null)
                             Center(
                               child: Image.network(
-                                productDetails!['image_url'],
+                                productDetails!.imageUrl!,
                                 width: 200,
                                 height: 200,
-                                fit: BoxFit.contain,
                               ),
                             ),
-
-                          const SizedBox(height: 12),
+                          SubTitle(text: '• Name: ${productDetails!.name}'),
+                          SubTitle(text: '• Brand: ${productDetails!.brand}'),
                           SubTitle(
-                            text:
-                                '• Name: ${productDetails!['product_name'] ?? 'N/A'}',
+                            text: '• Quantity: ${productDetails!.quantity}',
                           ),
-
-                          SubTitle(
-                            text:
-                                '• Brand: ${productDetails!['brands'] ?? 'N/A'}',
-                          ),
-
-                          SubTitle(
-                            text:
-                                '• Quantity: ${productDetails!['quantity'] ?? 'N/A'}',
-                          ),
-                          SubTitle(
-                            text:
-                                '• Label:${productDetails!['labels'] ?? 'N/A'}',
-                          ),
-
                           Text(
-                            '• Expiry: ${productDetails!['expiration_date'] ?? 'Not provided'}',
+                            '• Expiry: ${productDetails!.expirationDate ?? 'Not provided'}',
                             style: TextStyle(
                               fontSize: 17,
                               color: Colors.red,
                               letterSpacing: 2.0,
                             ),
                           ),
-                          const SizedBox(height: 20),
-                          TitleWidget(
-                            text: "Ingredients & Nutrition:",
-                            fontsize: 20,
+                          SubTitle(
+                            text:
+                                '• Labels: ${productDetails!.labels ?? 'N/A'}',
+                          ),
+                          Text(
+                            '• Expiry: ${productDetails!.expirationDate ?? 'Not provided'}',
                           ),
                           SubTitle(
                             text:
-                                '• Nutri-Score: ${productDetails!['nutriscore_grade']?.toUpperCase() ?? 'N/A'}',
+                                '• Nutri-Score: ${productDetails!.nutriScore ?? 'N/A'}',
                           ),
                           SubTitle(
                             text:
-                                '• Nutrient_levels: ${productDetails!['nutrient_levels'] ?? 'N/A'}',
+                                '• Ingredients: ${productDetails!.ingredients ?? 'N/A'}',
                           ),
-                          
+                          SubTitle(text: '• Source: ${productDetails!.source}'),
 
                           const SizedBox(height: 20),
+                          // HalalResult(productData: productDetails!),
+                          // const SizedBox(height: 20),
                         ],
 
                         if (_scannedResult != null) ...[
-                          Text(
-                            'Barcode: $_scannedResult',
-                            style: const TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey,
+                          Center(
+                            child: Text(
+                              'Barcode: $_scannedResult',
+                              style: const TextStyle(
+                                fontSize: 14,
+                                color: Colors.grey,
+                              ),
                             ),
                           ),
                           const SizedBox(height: 20),
