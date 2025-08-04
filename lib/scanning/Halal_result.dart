@@ -11,12 +11,17 @@ class HalalResult extends StatelessWidget {
   Widget build(BuildContext context) {
     final bool isHaram = halalChecker.isProductHaram(productData);
 
-    // Fix: Handle labels_tags being List or String
+    // Lowercased ingredients_text for checking 'halal' keyword
+    final String ingredients = productData['ingredients_text']?.toLowerCase() ?? '';
+
+    // Read labels_tags safely
     final dynamic labelsRaw = productData['labels_tags'];
+
+    // True if halal keyword found in labels or ingredients_text
     final bool isCertifiedHalal =
-        (labelsRaw is List)
-            ? labelsRaw.contains('halal')
-            : labelsRaw.toString().toLowerCase().contains('halal');
+        (labelsRaw is List && labelsRaw.any((l) => l.toLowerCase().contains('halal'))) ||
+        labelsRaw.toString().toLowerCase().contains('halal') ||
+        ingredients.contains('halal');
 
     return Center(
       child: Card(
@@ -48,10 +53,11 @@ class HalalResult extends StatelessWidget {
                 const Padding(
                   padding: EdgeInsets.only(top: 12),
                   child: Text(
-                    "✔️ Certified Halal label found",
+                    "✔️ Halal certification or label detected",
                     style: TextStyle(fontSize: 16, color: Colors.green),
                   ),
                 ),
+              
             ],
           ),
         ),

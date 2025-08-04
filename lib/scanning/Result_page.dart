@@ -137,7 +137,7 @@ class _ResultPageState extends State<ResultPage> {
                           SubTitle(text: '• Source: ${productDetails!.source}'),
 
                           const SizedBox(height: 20),
-                          // HalalResult(productData: productDetails!),
+                           HalalResult(productData: productDetails!.toMap()),
                           // const SizedBox(height: 20),
                         ],
 
