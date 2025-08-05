@@ -9,15 +9,16 @@ import 'package:trackncheck/AuthSelecctionScreen.dart';
 import 'package:trackncheck/SignUp.dart';
 import 'package:trackncheck/Welcome.dart';
 import 'package:trackncheck/components/AlertWidget.dart';
+import 'package:trackncheck/components/Card.dart';
 import 'package:trackncheck/components/navigationBar.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:trackncheck/firebase_options.dart';
 import 'package:trackncheck/account.dart';
 import 'package:trackncheck/logout.dart';
 import 'package:trackncheck/privacy_policy.dart';
+import 'package:trackncheck/scanning/Product_details.dart';
 import 'package:trackncheck/scanning/Result_page.dart';
 import 'package:trackncheck/splash.dart';
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,12 +32,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-       builder: EasyLoading.init(), 
+      builder: EasyLoading.init(),
       debugShowCheckedModeBanner: false,
-       theme: ThemeData(
+      theme: ThemeData(
         appBarTheme: AppBarTheme(iconTheme: IconThemeData(color: Colors.white)),
       ),
-      home: ResultPage(),
+      home: ProductDetails()
     );
   }
 }
