@@ -33,7 +33,7 @@ class AuthSelection extends StatelessWidget {
               SizedBox(height: 10),
               SizedBox(
                 width: 200,
-                child: SubTitle(text: "Your Daily product safety assistant"),
+                child: SubTitle(text: "Your Daily product safety assistant", fontsize: 17,),
               ),
               SizedBox(height: 20),
               SizedBox(
@@ -49,7 +49,7 @@ class AuthSelection extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 20),
-              SubTitle(text: "Or use instant sign up"),
+              SubTitle(text: "Or use instant sign up" ,fontsize: 17,),
               SizedBox(height: 20),
               SizedBox(
                 width: 400,
@@ -84,7 +84,7 @@ class AuthSelection extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 20),
-              SubTitle(text: "Already Have An account?"),
+              SubTitle(text: "Already Have An account?", fontsize: 17,),
               TextButton(
                 onPressed: () {
                   Get.to(Login());

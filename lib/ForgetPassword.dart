@@ -35,6 +35,7 @@ class Forgetpassword extends StatelessWidget {
               SizedBox(
                 width: 250,
                 child: SubTitle(
+                  fontsize: 17,
                   text: "We'll send you a email for updating password",
                 ),
               ),

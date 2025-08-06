@@ -22,8 +22,10 @@ class TitleWidget extends StatelessWidget {
 
 class SubTitle extends StatelessWidget {
   final String text;
+    final double fontsize;
 
-  const SubTitle({super.key, required this.text});
+
+  const SubTitle({super.key, required this.text, required this.fontsize});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +34,7 @@ class SubTitle extends StatelessWidget {
       textAlign: TextAlign.center,
       style: TextStyle(
         // fontWeight: FontWeight.bold,
-        fontSize: 17,
+        fontSize: fontsize,
         color: Colors.grey,
         letterSpacing: 2.0,
       ),

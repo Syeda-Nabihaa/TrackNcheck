@@ -95,6 +95,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   child: SubTitle(
                     text:
                         "Make sure your information is correct for a better experience.",
+                        fontsize: 17,
                   ),
                 ),
                 SizedBox(height: 20),

@@ -48,7 +48,7 @@ class AlertWidget extends StatelessWidget {
               SizedBox(height: 20),
               TitleWidget(text: message, fontsize: 30),
               SizedBox(height: 20),
-              SubTitle(text: subtext),
+              SubTitle(text: subtext, fontsize: 15,),
               SizedBox(height: 20),
               SizedBox(
                 width: 150,

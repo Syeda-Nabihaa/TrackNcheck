@@ -35,7 +35,7 @@ class Login extends StatelessWidget {
                 SizedBox(height: 10),
                 SizedBox(
                   width: 200,
-                  child: SubTitle(text: "Welcome Back You've been missed"),
+                  child: SubTitle(fontsize: 17,text: "Welcome Back You've been missed"),
                 ),
                 SizedBox(height: 20),
                 SizedBox(
