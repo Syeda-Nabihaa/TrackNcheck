@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:trackncheck/Login.dart';
 import 'package:trackncheck/app_version.dart';
 import 'package:trackncheck/components/Button.dart';
 import 'package:trackncheck/components/TextWidgets.dart';
@@ -64,6 +65,8 @@ class _UserAccountPageState extends State<UserAccountPage> {
                   fontSize: 18,
                 ),
               ),
+              SizedBox(height: 10,),
+              TextButton(onPressed: () => Get.to(Login()), child: Text('Go to Login.', style: TextStyle(color: ColorConstants.mainColor, fontSize: 16),))
             ],
           ),
         ),

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:trackncheck/Services/ApiService.dart';
 import 'package:trackncheck/components/Card.dart';
 import 'package:trackncheck/components/TextWidgets.dart';
 import 'package:trackncheck/components/constants.dart';
+import 'package:trackncheck/controller/ScanHistoryController.dart';
 import 'package:trackncheck/model/ProductModel.dart';
 import 'package:trackncheck/scanning/Halal_checker.dart';
 
@@ -19,6 +21,8 @@ class _HalalResultPageState extends State<HalalResultPage> {
   Product? product;
   bool loading = true;
 
+  final scanHistoryController = Get.find<ScanHistoryController>(); 
+
   @override
   void initState() {
     super.initState();
@@ -27,6 +31,16 @@ class _HalalResultPageState extends State<HalalResultPage> {
 
   void fetchProduct() async {
     final data = await fetchFromAllApis(widget.barcode);
+
+    if (data != null && scanHistoryController.isUserLoggedIn) {
+      final isHaram = halalChecker.isProductHaram(data.toMap());
+      final resultSummary = isHaram
+          ? '⚠️ Possibly Haram - ${data.name ?? 'Unknown'}'
+          : '✅ Appears Halal - ${data.name ?? 'Unknown'}';
+
+      await scanHistoryController.saveScan(widget.barcode, resultSummary);
+    }
+
     setState(() {
       product = data;
       loading = false;
@@ -36,12 +50,15 @@ class _HalalResultPageState extends State<HalalResultPage> {
   @override
   Widget build(BuildContext context) {
     if (loading) {
-      Center(child: CircularProgressIndicator());
+      return const Scaffold(
+        backgroundColor: ColorConstants.bgColor,
+        body: Center(child: CircularProgressIndicator()),
+      );
     }
+
     if (product == null) {
       return const Scaffold(
         backgroundColor: ColorConstants.bgColor,
-
         body: Center(
           child: Text(
             "Product not found",
@@ -68,11 +85,9 @@ class _HalalResultPageState extends State<HalalResultPage> {
         child: ResultCard(
           icon: isHaram ? Icons.warning : Icons.check_circle,
           iconColor: isHaram ? Colors.red : Colors.green,
-          title:
-              isHaram
-                  ? " This product may be Haram"
-                  : " This product appears to be Halal",
-         
+          title: isHaram
+              ? " This product may be Haram"
+              : " This product appears to be Halal",
           showSubtitle: isCertifiedHalal,
           subtitle: "✔️ Halal certification or label detected",
         ),

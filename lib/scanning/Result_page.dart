@@ -42,9 +42,8 @@ class _ResultPageState extends State<ResultPage> {
       backgroundColor: ColorConstants.bgColor,
       body: SafeArea(
         child: Column(
-          // mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(height: 40,),
+            SizedBox(height: 30,),
             SizedBox(
               width: 450,
               child: TitleWidget(

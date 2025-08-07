@@ -15,41 +15,43 @@ class LogoutScreen extends StatelessWidget {
       backgroundColor: ColorConstants.bgColor,
       appBar: AppBar(backgroundColor: ColorConstants.bgColor),
 
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-  CircleAvatar(
-    radius: 50,
-    backgroundColor: ColorConstants.fieldsColor,
-    child: Icon(Icons.logout_rounded, color: Colors.white, size: 80,),
-  ),
-  SizedBox(height: 20),
-          Text(
-            "Log Out",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40, color: Colors.white),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+          CircleAvatar(
+            radius: 50,
+            backgroundColor: ColorConstants.fieldsColor,
+            child: Icon(Icons.logout_rounded, color: Colors.white, size: 80,),
           ),
-          SizedBox(height: 10),
-          Text(
-            "Logging out will end your current session, you can always log back in anytime to access your account",
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 18, color: Colors.white),
-          ),
-          SizedBox(height: 10),
-          Button(
-            text: "Logout",
-            onPressed: () {
-              FirebaseAuth _auth = FirebaseAuth.instance;
-              _auth.signOut();
-               AlertWidget(
-                                    message: "Successful!",
-                                    subtext:
-                                        "Your have been logged out.",
-                                    animation: "assets/animations/Success.json",
-                                  );
-              Get.offAll(Navigationbar());
-            },
-          ),
-        ],
+          SizedBox(height: 20),
+            Text(
+              "Log Out",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40, color: Colors.white),
+            ),
+            SizedBox(height: 10),
+            Text(
+              "Logging out will end your current session,\n you can always log back in anytime to\n access your account",
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 18, color: Colors.white),
+            ),
+            SizedBox(height: 20),
+            Button(
+              text: "Logout",
+              onPressed: () {
+                FirebaseAuth _auth = FirebaseAuth.instance;
+                _auth.signOut();
+                 AlertWidget(
+                                      message: "Successful!",
+                                      subtext:
+                                          "Your have been logged out.",
+                                      animation: "assets/animations/Success.json",
+                                    );
+                Get.offAll(Navigationbar());
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
