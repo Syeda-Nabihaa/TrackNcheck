@@ -10,6 +10,7 @@ import 'package:trackncheck/model/ProductModel.dart';
 import 'package:trackncheck/scanning/Halal_result.dart';
 import 'package:trackncheck/scanning/Product_details.dart';
 import 'package:trackncheck/scanning/Scan_page.dart';
+import 'package:trackncheck/scanning/boycotProduct.dart';
 
 class ResultPage extends StatefulWidget {
   const ResultPage({super.key});
@@ -25,52 +26,66 @@ class _ResultPageState extends State<ResultPage> {
 
   String? error;
 
-  void _navigate(BuildContext context, bool isHalalCheck) async {
-    final result = await Get.to(() => const ScanPage());
-    if (result != null) {
-      if (isHalalCheck) {
-        Get.to(() => HalalResultPage(barcode: result));
-      } else {
-        Get.to(() => ProductDetailsPage(barcode: result));
-      }
+ void _navigate(BuildContext context, String mode) async {
+  final result = await Get.to(() => const ScanPage());
+  if (result != null) {
+    if (mode == "halal") {
+      Get.to(() => HalalResultPage(barcode: result));
+    } else if (mode == "boycott") {
+      Get.to(() => BoycottCheckerWidget(scannedBrand: result));
+    } else {
+      Get.to(() => ProductDetailsPage(barcode: result));
     }
   }
+}
+
+
+
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorConstants.bgColor,
       body: SafeArea(
-        child: Column(
-          children: [
-            SizedBox(height: 30,),
-            SizedBox(
-              width: 450,
-              child: TitleWidget(
-                text: "Scan Your Product and Get the Result Instantly",
-                fontsize: 25,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(height: 30),
+              SizedBox(
+                width: 450,
+                child: TitleWidget(
+                  text: "Scan Your Product and Get the Result Instantly",
+                  fontsize: 25,
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  CardWidget(
-                    title: "📦 Product Details",
-                    description: "Scan to view full product information",
-                    onTap: () => _navigate(context, false),
-                  ),
-                  const SizedBox(height: 24),
-                  CardWidget(
-                    title: "🕌 Halal/Haram Checker",
-                    description: "Scan to check if product is Halal",
-                    onTap: () => _navigate(context, true),
-                  ),
-                ],
+              Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    CardWidget(
+                      title: "📦 Product Details",
+                      description: "Scan to view full product information",
+                      onTap: () => _navigate(context, 'product'),
+                    ),
+                    const SizedBox(height: 24),
+                    CardWidget(
+                      title: "🕌 Halal/Haram Checker",
+                      description: "Scan to check if product is Halal",
+                      onTap: () => _navigate(context, 'halal'),
+                    ),
+                    const SizedBox(height: 24),
+                    CardWidget(
+                      title: "🚫 Boycott Check",
+                      description: "Scan to check if product is boycotted",
+                      onTap: () => _navigate(context, 'boycott'),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
