@@ -51,14 +51,8 @@ class _ResultPageState extends State<ResultPage> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(height: 30),
-              SizedBox(
-                width: 450,
-                child: TitleWidget(
-                  text: "Scan Your Product and Get the Result Instantly",
-                  fontsize: 25,
-                ),
-              ),
+              SizedBox(height: 20),
+             
               Padding(
                 padding: const EdgeInsets.all(24.0),
                 child: Column(

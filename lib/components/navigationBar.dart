@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:trackncheck/Home.dart';
+import 'package:trackncheck/SetExpiry.dart';
 import 'package:trackncheck/account.dart';
 import 'package:trackncheck/components/constants.dart';
 import 'package:trackncheck/history.dart';
@@ -17,7 +18,7 @@ class _NavigationbarState extends State<Navigationbar> {
 
   final List<Widget> pages = [
     HomeScreen(),
-    Center(child: Text("Ai")),
+    Setexpiry(),
     ScanHistoryPage(),
     UserAccountPage(),
   ];
@@ -44,7 +45,7 @@ class _NavigationbarState extends State<Navigationbar> {
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_tree_outlined),
-            label: 'Ai Assistant',
+            label: 'Expiry Reminder',
           ),
           BottomNavigationBarItem(icon: Icon(Icons.history), label: 'History'),
 
