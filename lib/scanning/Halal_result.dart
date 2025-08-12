@@ -33,13 +33,22 @@ class _HalalResultPageState extends State<HalalResultPage> {
     final data = await fetchFromAllApis(widget.barcode);
 
     if (data != null && scanHistoryController.isUserLoggedIn) {
-      final isHaram = halalChecker.isProductHaram(data.toMap());
-      final resultSummary = isHaram
-          ? '⚠️ Possibly Haram - ${data.name ?? 'Unknown'}'
-          : '✅ Appears Halal - ${data.name ?? 'Unknown'}';
+  final isHaram = halalChecker.isProductHaram(data.toMap());
+  final resultSummary = isHaram
+      ? '⚠️ Possibly Haram - ${data.name ?? 'Unknown'}'
+      : '✅ Appears Halal - ${data.name ?? 'Unknown'}';
 
-      await scanHistoryController.saveScan(widget.barcode, resultSummary);
-    }
+  await scanHistoryController.saveScan(
+    barcode: widget.barcode,
+    category: 'Halal/Haram Checker',
+    result: resultSummary,
+    productName: data.name,
+    expiryDate: data.expirationDate,
+    isExpired: false, // halal check is not about expiry; set false or omit
+    imageUrl: data.imageUrl,
+  );
+}
+
 
     setState(() {
       product = data;

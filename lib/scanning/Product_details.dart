@@ -33,12 +33,34 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
   void fetchProduct() async {
     final data = await fetchFromAllApis(widget.barcode);
 
-    if (data != null) {
-      if (scanHistoryController.isUserLoggedIn) {
-        String resultSummary = '${data.name ?? 'Unknown'} by ${data.brand ?? 'Unknown'}';
-        await scanHistoryController.saveScan(widget.barcode, resultSummary);
-      }
+    // After you get `data`
+if (data != null && scanHistoryController.isUserLoggedIn) {
+  // try to parse expiry date safely
+  bool expired = false;
+  if (data.expirationDate != null) {
+    try {
+      final dt = DateTime.parse(data.expirationDate!);
+      expired = dt.isBefore(DateTime.now());
+    } catch (e) {
+      // ignore parse errors - set expired = false
     }
+  }
+
+  final resultSummary = data.name != null
+      ? '${data.name} (${data.brand ?? ''})'
+      : 'Product scanned';
+
+  await scanHistoryController.saveScan(
+    barcode: widget.barcode,
+    category: 'Product Details',
+    result: resultSummary,
+    productName: data.name,
+    expiryDate: data.expirationDate,
+    isExpired: expired,
+    imageUrl: data.imageUrl,
+  );
+}
+
 
     setState(() {
       product = data;
