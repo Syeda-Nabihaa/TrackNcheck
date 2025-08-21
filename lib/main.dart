@@ -7,6 +7,7 @@ import 'package:trackncheck/Welcome.dart';
 import 'package:trackncheck/components/navigationBar.dart';
 import 'package:trackncheck/controller/ScanHistoryController.dart';
 import 'package:trackncheck/firebase_options.dart';
+import 'package:trackncheck/splash.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         appBarTheme: AppBarTheme(iconTheme: IconThemeData(color: Colors.white)),
       ),
-      home: Navigationbar()
+      home: SplashScreen()
     );
   }
 }

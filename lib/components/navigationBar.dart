@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart'; // ✅ To check login state
 
 import 'package:trackncheck/Home.dart';
 import 'package:trackncheck/SetExpiry.dart';
@@ -31,30 +32,37 @@ class _NavigationbarState extends State<Navigationbar> {
 
   @override
   Widget build(BuildContext context) {
+    // ✅ Check login state
+    User? user = FirebaseAuth.instance.currentUser;
+
     return Scaffold(
       body: pages[selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        showSelectedLabels: true,
-        backgroundColor: Color(0xff101729),
-        currentIndex: selectedIndex,
-        onTap: onItemTapped,
-        selectedItemColor: ColorConstants.mainColor,
-        unselectedItemColor: const Color.fromARGB(255, 102, 99, 99),
-        type: BottomNavigationBarType.fixed,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_tree_outlined),
-            label: 'Expiry Reminder',
-          ),
-          BottomNavigationBarItem(icon: Icon(Icons.history), label: 'History'),
 
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle_rounded),
-            label: 'Account',
-          ),
-        ],
-      ),
+      // ✅ If logged in → show BottomNavBar, else → empty SizedBox
+      bottomNavigationBar: user == null
+          ? const SizedBox.shrink() // nothing shown if not logged in
+          : BottomNavigationBar(
+              showSelectedLabels: true,
+              backgroundColor: const Color(0xff101729),
+              currentIndex: selectedIndex,
+              onTap: onItemTapped,
+              selectedItemColor: ColorConstants.mainColor,
+              unselectedItemColor: const Color.fromARGB(255, 102, 99, 99),
+              type: BottomNavigationBarType.fixed,
+              items: const [
+                BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.account_tree_outlined),
+                  label: 'Expiry Reminder',
+                ),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.history), label: 'History'),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.account_circle_rounded),
+                  label: 'Account',
+                ),
+              ],
+            ),
     );
   }
 }
