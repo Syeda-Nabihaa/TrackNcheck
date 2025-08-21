@@ -8,6 +8,7 @@ import 'package:trackncheck/Welcome.dart';
 import 'package:trackncheck/components/navigationBar.dart';
 import 'package:trackncheck/controller/ScanHistoryController.dart';
 import 'package:trackncheck/firebase_options.dart';
+import 'package:trackncheck/splash.dart';
 
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -43,7 +44,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         appBarTheme: AppBarTheme(iconTheme: IconThemeData(color: Colors.white)),
       ),
-      home: Navigationbar(),
+
+      home: SplashScreen()
+
+    
     );
   }
 }
