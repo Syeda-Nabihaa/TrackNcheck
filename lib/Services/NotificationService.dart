@@ -16,18 +16,14 @@ class NotificationService {
 
     const AndroidInitializationSettings androidSettings =
         AndroidInitializationSettings('@mipmap/ic_launcher');
+    const DarwinInitializationSettings iosSettings = DarwinInitializationSettings();
 
-    const DarwinInitializationSettings iosSettings =
-        DarwinInitializationSettings();
-
-    const InitializationSettings settings = InitializationSettings(
-      android: androidSettings,
-      iOS: iosSettings,
-    );
+    const InitializationSettings settings =
+        InitializationSettings(android: androidSettings, iOS: iosSettings);
 
     await _notifications.initialize(settings);
 
-    // Create notification channel for Android
+    // Android channel
     const AndroidNotificationChannel channel = AndroidNotificationChannel(
       'expiry_channel',
       'Expiry Reminders',
@@ -36,8 +32,7 @@ class NotificationService {
     );
 
     await _notifications
-        .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>()
+        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
         ?.createNotificationChannel(channel);
 
     // Request permissions
@@ -47,7 +42,6 @@ class NotificationService {
       sound: true,
     );
 
-    // Handle background messages
     FirebaseMessaging.onBackgroundMessage(_firebaseBackgroundMessage);
   }
 
@@ -62,8 +56,7 @@ class NotificationService {
     required String title,
     required String body,
   }) async {
-    const AndroidNotificationDetails androidDetails =
-        AndroidNotificationDetails(
+    const AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
       'expiry_channel',
       'Expiry Reminders',
       channelDescription: 'Notifications for product expiry reminders',
@@ -73,10 +66,8 @@ class NotificationService {
 
     const DarwinNotificationDetails iosDetails = DarwinNotificationDetails();
 
-    const NotificationDetails details = NotificationDetails(
-      android: androidDetails,
-      iOS: iosDetails,
-    );
+    const NotificationDetails details =
+        NotificationDetails(android: androidDetails, iOS: iosDetails);
 
     await _notifications.show(
       DateTime.now().millisecondsSinceEpoch ~/ 1000,
@@ -86,132 +77,88 @@ class NotificationService {
     );
   }
 
-  Future<void> scheduleExpiryNotificationAlt({
-  required String productName,
-  required DateTime expiryDate,
-  int daysBefore = 30,
-  int hour = 14, // Default reminder time: 2 PM
-  int minute = 0,
-}) async {
-  // 1️⃣ Calculate the reminder date
-  final DateTime notificationDate = expiryDate.subtract(Duration(days: daysBefore));
-
-  // 2️⃣ Set the reminder time (e.g., 2:00 PM)
-  final DateTime notificationDateTime = DateTime(
-    notificationDate.year,
-    notificationDate.month,
-    notificationDate.day,
-    hour,
-    minute,
-  );
-
-  final now = DateTime.now();
-
-  // 3️⃣ Fire immediately if the reminder time is already past
-  if (notificationDateTime.isBefore(now)) {
-    await _showNotification(
-      title: 'Expiry Reminder: $productName',
-      body: 'Your product "$productName" expires on ${expiryDate.toString().split(' ')[0]}.',
-    );
-    return;
+  /// Cancel single notification by ID
+  Future<void> cancelNotification(int id) async {
+    await _notifications.cancel(id);
   }
 
-  // 4️⃣ Schedule notification using timezone-aware DateTime
-  final tz.TZDateTime scheduledDate = tz.TZDateTime.from(
-    notificationDateTime,
-    tz.local,
-  );
+  /// Cancel all notifications (for testing/debug)
+  Future<void> cancelAllNotifications() async {
+    await _notifications.cancelAll();
+  }
 
-  // 5️⃣ Notification details
-  const AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
-    'expiry_channel',
-    'Expiry Reminders',
-    channelDescription: 'Notifications for product expiry reminders',
-    importance: Importance.high,
-    priority: Priority.high,
-  );
+  /// Schedule a notification for a specific date
+  Future<void> scheduleNotification({
+    required String productName,
+    required DateTime expiryDate,
+    required int daysBefore,
+  }) async {
+    final scheduledDate = expiryDate.subtract(Duration(days: daysBefore));
 
-  const DarwinNotificationDetails iosDetails = DarwinNotificationDetails();
+    if (scheduledDate.isBefore(DateTime.now())) return; // skip if in past
 
-  const NotificationDetails notificationDetails = NotificationDetails(
-    android: androidDetails,
-    iOS: iosDetails,
-  );
+    final tz.TZDateTime tzDate = tz.TZDateTime.from(scheduledDate, tz.local);
 
-  // 6️⃣ Schedule notification
-  await _notifications.zonedSchedule(
-    // Unique ID for each reminder
-    productName.hashCode + daysBefore,
-    'Expiry Reminder: $productName',
-    'Your product "$productName" expires on ${expiryDate.toString().split(' ')[0]}.',
-    scheduledDate,
-    notificationDetails,
-    androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-    matchDateTimeComponents: null,
-   
-  );
-}
+    const AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
+      'expiry_channel',
+      'Expiry Reminders',
+      channelDescription: 'Notifications for product expiry reminders',
+      importance: Importance.high,
+      priority: Priority.high,
+    );
 
+    const DarwinNotificationDetails iosDetails = DarwinNotificationDetails();
 
-  Future<void> scheduleImmediateNotification({
-  required String productName,
-  required DateTime expiryDate,
-}) async {
-  // Fire immediately
-  const AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
-    'expiry_channel',
-    'Expiry Reminders',
-    channelDescription: 'Immediate notifications for new products',
-    importance: Importance.high,
-    priority: Priority.high,
-  );
+    const NotificationDetails details =
+        NotificationDetails(android: androidDetails, iOS: iosDetails);
 
-  const DarwinNotificationDetails iosDetails = DarwinNotificationDetails();
+    await _notifications.zonedSchedule(
+      productName.hashCode + daysBefore,
+      'Expiry Reminder: $productName',
+      'Your product "$productName" expires on ${expiryDate.toString().split(' ')[0]}',
+      tzDate,
+      details,
+      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+      matchDateTimeComponents: null,
+    );
+  }
 
-  const NotificationDetails notificationDetails = NotificationDetails(
-    android: androidDetails,
-    iOS: iosDetails,
-  );
-
-  await _notifications.show(
-    productName.hashCode, // unique ID for this product
-    'Expiry Reminder: $productName',
-    'Your product "$productName" expires on ${expiryDate.toString().split(' ')[0]}.',
-    notificationDetails,
-  );
-}
-
-
-
-  // ✅ Only 30 days and 7 days reminders now
+  /// Schedule multiple reminders: 30-day, 7-day
   Future<void> scheduleMultipleReminders({
     required String productName,
     required DateTime expiryDate,
   }) async {
-    // 30 days before
-    await scheduleExpiryNotificationAlt(
+    // Cancel old notifications for this product
+    await cancelNotification(productName.hashCode + 30);
+    await cancelNotification(productName.hashCode + 7);
+    await cancelNotification(productName.hashCode + 999);
+
+    // Schedule 30-day reminder
+    await scheduleNotification(
       productName: productName,
       expiryDate: expiryDate,
       daysBefore: 30,
     );
 
-    // 7 days before
-    await scheduleExpiryNotificationAlt(
+    // Schedule 7-day reminder
+    await scheduleNotification(
       productName: productName,
       expiryDate: expiryDate,
       daysBefore: 7,
     );
-     await scheduleImmediateNotification(
-  productName: productName,
-  expiryDate: expiryDate,
-);
   }
 
-  Future<void> cancelNotification(int id) async {
-    await _notifications.cancel(id);
+  /// Optional immediate notification
+  Future<void> scheduleImmediateNotification({
+    required String productName,
+    required DateTime expiryDate,
+  }) async {
+    await _showNotification(
+      title: 'Expiry Reminder: $productName',
+      body: 'Your product "$productName" expires on ${expiryDate.toString().split(' ')[0]}',
+    );
   }
 
-  // Test method to check if notifications work
   Future<void> testNotification() async {
     const AndroidNotificationDetails androidDetails =
         AndroidNotificationDetails(
@@ -237,3 +184,6 @@ class NotificationService {
     );
   }
 }
+
+
+
