@@ -5,6 +5,7 @@ import 'package:trackncheck/components/InputFields.dart';
 import 'package:trackncheck/components/TextWidgets.dart';
 import 'package:trackncheck/components/constants.dart';
 import 'package:trackncheck/controller/ExpiryController.dart';
+import 'package:trackncheck/services/NotificationService.dart';
 
 class Setexpiry extends StatefulWidget {
   const Setexpiry({super.key});
@@ -17,8 +18,18 @@ class _SetexpiryState extends State<Setexpiry> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _productNameController = TextEditingController();
   final TextEditingController _expiryDateController = TextEditingController();
-
+  final NotificationService _notificationService = NotificationService();
   DateTime? selectedDate;
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeNotifications();
+  }
+
+  Future<void> _initializeNotifications() async {
+    await _notificationService.initialize();
+  }
 
   Future<void> _pickDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -41,18 +52,21 @@ class _SetexpiryState extends State<Setexpiry> {
         productName: _productNameController.text,
         expiryDate: selectedDate!,
       );
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Reminder saved')),
-      );
+
+    
 
       _productNameController.clear();
       _expiryDateController.clear();
       selectedDate = null;
     } catch (e) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Failed to save: $e')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to save: $e')),
+      );
     }
+  }
+
+  Future<void> _testNotification() async {
+    await _notificationService.testNotification();
   }
 
   @override
@@ -67,7 +81,6 @@ class _SetexpiryState extends State<Setexpiry> {
             padding: const EdgeInsets.all(16.0),
             child: Form(
               key: _formKey,
-
               child: Container(
                 width: 450,
                 padding: const EdgeInsets.all(20),
@@ -78,7 +91,7 @@ class _SetexpiryState extends State<Setexpiry> {
                     BoxShadow(
                       color: ColorConstants.fieldsColor,
                       blurRadius: 4,
-                      offset: Offset(4, 8), // Shadow position
+                      offset: Offset(4, 8),
                     ),
                   ],
                 ),
@@ -86,7 +99,6 @@ class _SetexpiryState extends State<Setexpiry> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Form Title
                     const SizedBox(height: 20),
 
                     // Product Name Field
@@ -98,7 +110,7 @@ class _SetexpiryState extends State<Setexpiry> {
                     ),
                     const SizedBox(height: 16),
 
-                    // Expiry Date Field (Date Picker)
+                    // Expiry Date Field
                     GestureDetector(
                       onTap: () => _pickDate(context),
                       child: AbsorbPointer(
@@ -112,17 +124,43 @@ class _SetexpiryState extends State<Setexpiry> {
                     ),
                     const SizedBox(height: 24),
 
-                    // Submit Button
+                    // Save Button
                     SizedBox(
                       width: double.infinity,
                       child: Button(
                         text: "Save Reminder",
                         onPressed: () {
-                          if (_formKey.currentState!.validate() &&
-                              selectedDate != null) {
+                          if (_formKey.currentState!.validate() && selectedDate != null) {
                             saveReminder();
                           }
                         },
+                      ),
+                    ),
+
+                    const SizedBox(height: 20),
+
+                    // Test Buttons Section
+                    Text(
+                      'Test Notifications:',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey[700],
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+
+                    // Test Immediate Notification Button
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton.icon(
+                        onPressed: _testNotification,
+                        icon: const Icon(Icons.notifications, size: 20),
+                        label: const Text('Send Test Notification'),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue,
+                          foregroundColor: Colors.white,
+                        ),
                       ),
                     ),
                   ],
