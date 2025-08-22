@@ -20,6 +20,7 @@ void main() async {
 
   // Initialize Firebase
   await Firebase.initializeApp();
+  Get.put(ScanHistoryController());
 
   // Initialize notifications
   final notificationService = NotificationService();
@@ -27,7 +28,6 @@ void main() async {
 
   // Schedule all pending notifications on app start
   
-
   runApp(MyApp());
 }
 
