@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:trackncheck/components/Button.dart';
 import 'package:trackncheck/components/InputFields.dart';
 import 'package:trackncheck/components/TextWidgets.dart';
 import 'package:trackncheck/components/constants.dart';
+import 'package:trackncheck/components/navigationBar.dart';
 import 'package:trackncheck/controller/ExpiryController.dart';
+import 'package:trackncheck/reminder_list.dart';
 import 'package:trackncheck/services/NotificationService.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Setexpiry extends StatefulWidget {
   const Setexpiry({super.key});
@@ -48,12 +52,23 @@ class _SetexpiryState extends State<Setexpiry> {
 
   Future<void> saveReminder() async {
     try {
+      final user = FirebaseAuth.instance.currentUser;
+      if (user == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Please log in to save reminders')),
+        );
+        return;
+      }
+
       await Expirycontroller.saveExpiryReminder(
         productName: _productNameController.text,
         expiryDate: selectedDate!,
       );
 
-    
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Reminder saved successfully!')),
+      );
+      Get.offAll(Navigationbar());
 
       _productNameController.clear();
       _expiryDateController.clear();
@@ -139,7 +154,7 @@ class _SetexpiryState extends State<Setexpiry> {
 
                     const SizedBox(height: 20),
 
-                    // Test Buttons Section
+                    // Test Notifications Section
                     Text(
                       'Test Notifications:',
                       style: TextStyle(
@@ -150,7 +165,6 @@ class _SetexpiryState extends State<Setexpiry> {
                     ),
                     const SizedBox(height: 10),
 
-                    // Test Immediate Notification Button
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton.icon(

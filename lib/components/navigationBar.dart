@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart'; // ✅ To check login state
-
 import 'package:trackncheck/Home.dart';
-import 'package:trackncheck/SetExpiry.dart';
 import 'package:trackncheck/account.dart';
 import 'package:trackncheck/components/constants.dart';
 import 'package:trackncheck/history.dart';
+import 'package:trackncheck/reminder_list.dart';
 
 class Navigationbar extends StatefulWidget {
   const Navigationbar({super.key});
@@ -19,7 +18,7 @@ class _NavigationbarState extends State<Navigationbar> {
 
   final List<Widget> pages = [
     HomeScreen(),
-    Setexpiry(),
+    RemindersPage(),
     ScanHistoryPage(),
     UserAccountPage(),
   ];

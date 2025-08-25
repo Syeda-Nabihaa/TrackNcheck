@@ -56,7 +56,7 @@ class Signupauth {
 Future<void> successAlert() {
   return Get.dialog(
     AlertWidget(
-      message: "Successfully registered",
+      message: "Successfully registered!",
       subtext: "Congratulations! Your account has been registered.",
       animation: "assets/animations/Success.json",
     ),
@@ -67,7 +67,7 @@ Future<void> successAlert() {
     Get.dialog(
       AlertWidget(
         message: "Failed Register",
-        subtext: "spmething went wrong please try again",
+        subtext: "Something went wrong! Please try again.",
         animation: "assets/animations/error.json",
       ),
     );

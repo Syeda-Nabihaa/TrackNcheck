@@ -59,7 +59,10 @@ class _ScanHistoryPageState extends State<ScanHistoryPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const TitleWidget(text: 'History', fontsize: 20),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: const TitleWidget(text: 'History', fontsize: 20),
+              ),
               const SizedBox(height: 16),
               const Icon(Icons.lock, size: 60, color: Colors.white70),
               const SizedBox(height: 12),
@@ -158,7 +161,7 @@ class _ScanHistoryPageState extends State<ScanHistoryPage> {
                           const SizedBox(height: 6),
                           Text(result, style: const TextStyle(color: Colors.white70)),
                           const SizedBox(height: 6),
-                          Text("Scanned: $scannedAt", style: const TextStyle(color: Colors.grey)),
+Text("Last Scanned: $scannedAt", style: const TextStyle(color: Colors.grey)),
                           if (expiry.isNotEmpty)
                             Text("Expiry: $expiry", style: const TextStyle(color: Colors.grey)),
                         ],

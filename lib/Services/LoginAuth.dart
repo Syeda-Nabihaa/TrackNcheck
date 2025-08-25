@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-// import 'package:trackncheck/Home.dart';
 import 'package:trackncheck/components/AlertWidget.dart';
 import 'package:trackncheck/components/navigationBar.dart';
 import 'package:trackncheck/controller/GetUserDataController.dart';
@@ -21,7 +20,7 @@ class Loginauth {
     required TextEditingController password,
   }) async {
     if (formkey.currentState == null || !formkey.currentState!.validate()) {
-      failedAlert("Please fill out the fields correctly");
+      failedAlert("Please fill out all the fields correctly.");
       return;
     }
     String userEmail = email.text.trim();
@@ -45,7 +44,7 @@ Future<void> successAlert() {
     return Get.dialog(
       AlertWidget(
         message: "Successfully LogIn",
-        subtext: "Congratulations! Your account has been logged In",
+        subtext: "Congratulations! Your account has been logged in.",
         animation: "assets/animations/Success.json",
       ),
     );
@@ -55,7 +54,7 @@ Future<void> successAlert() {
     Get.dialog(
       AlertWidget(
         message: message,
-        subtext: "spmething went wrong please try again",
+        subtext: "Something went wrong! Please try again.",
         animation: "assets/animations/error.json",
       ),
     );
