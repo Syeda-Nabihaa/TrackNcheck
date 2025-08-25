@@ -20,6 +20,7 @@ void main() async {
 
   // Initialize Firebase
   await Firebase.initializeApp();
+  Get.put(ScanHistoryController());
 
   // Initialize notifications
   final notificationService = NotificationService();
@@ -45,9 +46,7 @@ class MyApp extends StatelessWidget {
         appBarTheme: AppBarTheme(iconTheme: IconThemeData(color: Colors.white)),
       ),
 
-      home: SplashScreen()
-
-    
+      home: Navigationbar(),
     );
   }
 }

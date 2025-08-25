@@ -1,26 +1,35 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:trackncheck/Services/NotificationService.dart';
 
-// import 'package:intl/intl.dart'; 
 class Expirycontroller {
   static Future<void> saveExpiryReminder({
     required String productName,
     required DateTime expiryDate,
   }) async {
     try {
-      // Save to Firebase
-      await FirebaseFirestore.instance.collection('expiry_reminders').add({
-        'productName': productName,
-        'expiryDate': expiryDate,
-        'createdAt': DateTime.now(),
-      });
+      final user = FirebaseAuth.instance.currentUser;
+      if (user == null) {
+        throw Exception("User not logged in");
+      }
+
+      // Save to Firebase inside user's subcollection
+await FirebaseFirestore.instance
+    .collection('expiry_reminders')
+    .doc(FirebaseAuth.instance.currentUser!.uid) // user doc
+    .collection('items') // subcollection
+    .add({
+  'productName': productName,
+  'expiryDate': expiryDate,
+  'createdAt': DateTime.now(),
+});
+
 
       // Schedule multiple notifications
       await NotificationService().scheduleMultipleReminders(
         productName: productName,
         expiryDate: expiryDate,
       );
-
     } catch (e) {
       throw Exception('Failed to save reminder: $e');
     }
@@ -28,15 +37,16 @@ class Expirycontroller {
 
   static Future<void> scheduleAllPendingNotifications() async {
     try {
-      final snapshot = await FirebaseFirestore.instance
-          .collection('expiry_reminders')
-          .where('expiryDate', isGreaterThan: DateTime.now())
-          .get();
+      final snapshot =
+          await FirebaseFirestore.instance
+              .collection('expiry_reminders')
+              .where('expiryDate', isGreaterThan: DateTime.now())
+              .get();
 
       for (var doc in snapshot.docs) {
         final productName = doc['productName'];
         final expiryDate = (doc['expiryDate'] as Timestamp).toDate();
-        
+
         await NotificationService().scheduleMultipleReminders(
           productName: productName,
           expiryDate: expiryDate,
@@ -47,52 +57,43 @@ class Expirycontroller {
     }
   }
 
-  // Method to update existing reminders
   static Future<void> updateExpiryReminder({
     required String docId,
     required String productName,
     required DateTime expiryDate,
   }) async {
     try {
-      // Cancel existing notifications
       await NotificationService().cancelNotification(productName.hashCode);
-      
-      // Update Firebase
+
       await FirebaseFirestore.instance
           .collection('expiry_reminders')
           .doc(docId)
           .update({
-        'productName': productName,
-        'expiryDate': expiryDate,
-        'updatedAt': DateTime.now(),
-      });
+            'productName': productName,
+            'expiryDate': Timestamp.fromDate(expiryDate), // ✅ FIX
+            'updatedAt': Timestamp.fromDate(DateTime.now()),
+          });
 
-      // Schedule new notifications
       await NotificationService().scheduleMultipleReminders(
         productName: productName,
         expiryDate: expiryDate,
       );
-
     } catch (e) {
       throw Exception('Failed to update reminder: $e');
     }
   }
 
-  // Method to delete reminder
   static Future<void> deleteExpiryReminder({
     required String docId,
     required String productName,
   }) async {
     try {
-      // Cancel notifications
       await NotificationService().cancelNotification(productName.hashCode);
-      
-      // Delete from Firebase
+
       await FirebaseFirestore.instance
           .collection('expiry_reminders')
           .doc(docId)
           .delete();
-
     } catch (e) {
       throw Exception('Failed to delete reminder: $e');
     }
