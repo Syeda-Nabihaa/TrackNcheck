@@ -10,6 +10,7 @@ class halalChecker {
     'rennet',
     'enzymes',
     'gelatin',
+    'Beers'
   ];
 
   static bool isProductHaram(Map<String, dynamic> productData) {

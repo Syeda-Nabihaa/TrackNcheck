@@ -27,10 +27,7 @@ void main() async {
   await notificationService.initialize();
 
   // Schedule all pending notifications on app start
-  WidgetsBinding.instance.addPostFrameCallback((_) {
-    Expirycontroller.scheduleAllPendingNotifications();
-  });
-
+  
   runApp(MyApp());
 }
 
@@ -46,7 +43,9 @@ class MyApp extends StatelessWidget {
         appBarTheme: AppBarTheme(iconTheme: IconThemeData(color: Colors.white)),
       ),
 
-      home: Navigationbar(),
+      home: Navigationbar()
+
+
     );
   }
 }
