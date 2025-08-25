@@ -40,10 +40,10 @@ class _ResultPageState extends State<ResultPage> {
           if (brandTag.isNotEmpty) {
             Get.to(() => BoycottCheckerWidget(scannedBrand: brandTag));
           } else {
-            Get.snackbar("Error", "Brand not found for this product");
+            Get.snackbar("Error", "Brand not found for this product" ,backgroundColor: Colors.white);
           }
         } else {
-          Get.snackbar("Error", "Product not found in database");
+          Get.snackbar("Error", "Product not found in database", backgroundColor: Colors.white);
         }
       } else {
         Get.to(() => ProductDetailsPage(barcode: result));
