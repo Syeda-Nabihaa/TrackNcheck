@@ -161,7 +161,7 @@ class _ScanHistoryPageState extends State<ScanHistoryPage> {
                           const SizedBox(height: 6),
                           Text(result, style: const TextStyle(color: Colors.white70)),
                           const SizedBox(height: 6),
-                          Text("Scanned: $scannedAt", style: const TextStyle(color: Colors.grey)),
+Text("Last Scanned: $scannedAt", style: const TextStyle(color: Colors.grey)),
                           if (expiry.isNotEmpty)
                             Text("Expiry: $expiry", style: const TextStyle(color: Colors.grey)),
                         ],

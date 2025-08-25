@@ -11,22 +11,43 @@ class ScanHistoryController extends GetxController {
   StreamSubscription<QuerySnapshot>? _subscription; 
 
   Future<void> saveScan({
-    required String barcode,
-    required String category,
-    String? result,
-    String? productName,
-    String? imageUrl,
-    String? expiryDate,
-    bool? isExpired,
-  }) async {
-    final user = _auth.currentUser;
-    if (user == null) return;
+  required String barcode,
+  required String category,
+  String? result,
+  String? productName,
+  String? imageUrl,
+  String? expiryDate,
+  bool? isExpired,
+}) async {
+  final user = _auth.currentUser;
+  if (user == null) return;
 
-    await _firestore
-        .collection('scan_history')
-        .doc(user.uid)
-        .collection('history')
-        .add({
+  final historyRef = _firestore
+      .collection('scan_history')
+      .doc(user.uid)
+      .collection('history');
+
+  //Check if product with same barcode + category already exists
+  final existing = await historyRef
+      .where('barcode', isEqualTo: barcode)
+      .where('category', isEqualTo: category)
+      .limit(1)
+      .get();
+
+  if (existing.docs.isNotEmpty) {
+    //Update existing record
+    final docId = existing.docs.first.id;
+    await historyRef.doc(docId).update({
+      'result': result ?? '',
+      'productName': productName ?? '',
+      'imageUrl': imageUrl ?? '',
+      'expiryDate': expiryDate ?? '',
+      'isExpired': isExpired ?? false,
+      'timestamp': FieldValue.serverTimestamp(), // update timestamp
+    });
+  } else {
+    //Add new entry
+    await historyRef.add({
       'barcode': barcode,
       'category': category,
       'result': result ?? '',
@@ -37,6 +58,8 @@ class ScanHistoryController extends GetxController {
       'timestamp': FieldValue.serverTimestamp(),
     });
   }
+}
+
 
   void listenToHistory({String category = 'All'}) {
     final user = _auth.currentUser;
