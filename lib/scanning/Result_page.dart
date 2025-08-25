@@ -26,22 +26,30 @@ class _ResultPageState extends State<ResultPage> {
 
   String? error;
 
- void _navigate(BuildContext context, String mode) async {
-  final result = await Get.to(() => const ScanPage());
-  if (result != null) {
-    if (mode == "halal") {
-      Get.to(() => HalalResultPage(barcode: result));
-    } else if (mode == "boycott") {
-      Get.to(() => BoycottCheckerWidget(scannedBrand: result));
-    } else {
-      Get.to(() => ProductDetailsPage(barcode: result));
+  void _navigate(BuildContext context, String mode) async {
+    final result = await Get.to(() => const ScanPage());
+    if (result != null) {
+      if (mode == "halal") {
+        Get.to(() => HalalResultPage(barcode: result));
+      } else if (mode == "boycott") {
+        final product = await fetchFromAllApis(result);
+
+        if (product != null) {
+          final brandTag = product.brand?.toLowerCase().trim() ?? "";
+
+          if (brandTag.isNotEmpty) {
+            Get.to(() => BoycottCheckerWidget(scannedBrand: brandTag));
+          } else {
+            Get.snackbar("Error", "Brand not found for this product");
+          }
+        } else {
+          Get.snackbar("Error", "Product not found in database");
+        }
+      } else {
+        Get.to(() => ProductDetailsPage(barcode: result));
+      }
     }
   }
-}
-
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +60,7 @@ class _ResultPageState extends State<ResultPage> {
           child: Column(
             children: [
               SizedBox(height: 20),
-             
+
               Padding(
                 padding: const EdgeInsets.all(24.0),
                 child: Column(

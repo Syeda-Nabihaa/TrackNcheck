@@ -95,11 +95,12 @@ class _HalalResultPageState extends State<HalalResultPage> {
           icon: isHaram ? Icons.warning : Icons.check_circle,
           iconColor: isHaram ? Colors.red : Colors.green,
           title: isHaram
-              ? " This product may be Haram"
+              ? " This product may be Haram \n  Product : ${product!.name ?? 'Unknown Product'}"
               : " This product appears to be Halal",
           showSubtitle: isCertifiedHalal,
           subtitle: "✔️ Halal certification or label detected",
         ),
+        
       ),
     );
   }
