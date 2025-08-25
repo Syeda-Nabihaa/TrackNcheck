@@ -49,36 +49,45 @@ class _SetexpiryState extends State<Setexpiry> {
       });
     }
   }
-
-  Future<void> saveReminder() async {
-    try {
-      final user = FirebaseAuth.instance.currentUser;
-      if (user == null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Please log in to save reminders')),
-        );
-        return;
-      }
-
-      await Expirycontroller.saveExpiryReminder(
-        productName: _productNameController.text,
-        expiryDate: selectedDate!,
-      );
-
+Future<void> saveReminder() async {
+  try {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Reminder saved successfully!')),
+        const SnackBar(content: Text('Please log in to save reminders')),
       );
-      Get.offAll(Navigationbar());
-
-      _productNameController.clear();
-      _expiryDateController.clear();
-      selectedDate = null;
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to save: $e')),
-      );
+      return;
     }
+
+    // Save reminder to Firestore (or your DB)
+    await Expirycontroller.saveExpiryReminder(
+      productName: _productNameController.text,
+      expiryDate: selectedDate!,
+    );
+
+    // ✅ Trigger immediate notification
+    await _notificationService.scheduleImmediateNotification(
+      productName: _productNameController.text,
+      expiryDate: selectedDate!,
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Reminder saved successfully!')),
+    );
+
+    Get.offAll(Navigationbar());
+
+    // Clear inputs
+    _productNameController.clear();
+    _expiryDateController.clear();
+    selectedDate = null;
+  } catch (e) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Failed to save: $e')),
+    );
   }
+}
+
 
   Future<void> _testNotification() async {
     await _notificationService.testNotification();

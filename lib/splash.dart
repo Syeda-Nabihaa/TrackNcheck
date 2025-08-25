@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -5,7 +7,7 @@ import 'package:trackncheck/Welcome.dart';
 import 'package:trackncheck/components/Logo.dart';
 import 'package:trackncheck/components/constants.dart';
 import 'package:trackncheck/components/navigationBar.dart';
-import 'package:trackncheck/controller/GetUserDataController.dart';
+// import 'package:trackncheck/controller/GetUserDataController.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -15,18 +17,24 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-
-  
-
+    User? user = FirebaseAuth.instance.currentUser;
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(seconds: 3), () {
-      Get.offAll(WelcomeScreen());
+   Timer(Duration(seconds: 3), () {
+      LoggedIn(context);
     });
   }
 
-  
+ Future<void> LoggedIn(BuildContext context) async {
+  if (user != null) {
+    Get.offAll(() => Navigationbar());
+  } else {
+    Get.off(() => WelcomeScreen());
+  }
+}
+
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
