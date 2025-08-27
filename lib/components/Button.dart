@@ -17,7 +17,7 @@ class Button extends StatelessWidget {
     this.color = ColorConstants.mainColor,
     this.textColor = Colors.white,
     this.borderRadius = 26.0,
-    this.paddingVertical = 26.0,
+    this.paddingVertical = 23.0,
     this.paddingHorizontal = 24.0,
   });
 

@@ -35,7 +35,10 @@ class Login extends StatelessWidget {
                 SizedBox(height: 10),
                 SizedBox(
                   width: 200,
-                  child: SubTitle(fontsize: 17,text: "Welcome Back You've been missed"),
+                  child: SubTitle(
+                    fontsize: 17,
+                    text: "Welcome Back You've been missed",
+                  ),
                 ),
                 SizedBox(height: 20),
                 SizedBox(
@@ -72,18 +75,6 @@ class Login extends StatelessWidget {
                           ),
                           emptyFields: "Please fill out this field",
                           obscureText: !logInController.isVisible.value,
-                        ),
-                      ),
-
-                      SizedBox(height: 10),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: TextButton(
-                          onPressed: () {},
-                          child: Text(
-                            "Forget Password?",
-                            style: TextStyle(color: Colors.white),
-                          ),
                         ),
                       ),
                       SizedBox(height: 20),

@@ -32,15 +32,16 @@ class _NavigationbarState extends State<Navigationbar> {
   @override
   Widget build(BuildContext context) {
     // ✅ Check login state
-    User? user = FirebaseAuth.instance.currentUser;
+    // User? user = FirebaseAuth.instance.currentUser;
 
     return Scaffold(
       body: pages[selectedIndex],
 
       // ✅ If logged in → show BottomNavBar, else → empty SizedBox
-      bottomNavigationBar: user == null
-          ? const SizedBox.shrink() // nothing shown if not logged in
-          : BottomNavigationBar(
+      // bottomNavigationBar: user == null
+      bottomNavigationBar:
+          // ? const SizedBox.shrink() // nothing shown if not logged in
+           BottomNavigationBar(
               showSelectedLabels: true,
               backgroundColor: const Color(0xff101729),
               currentIndex: selectedIndex,

@@ -164,28 +164,28 @@ Future<void> saveReminder() async {
                     const SizedBox(height: 20),
 
                     // Test Notifications Section
-                    Text(
-                      'Test Notifications:',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.grey[700],
-                      ),
-                    ),
-                    const SizedBox(height: 10),
+                  //   Text(
+                  //     'Test Notifications:',
+                  //     style: TextStyle(
+                  //       fontSize: 16,
+                  //       fontWeight: FontWeight.bold,
+                  //       color: Colors.grey[700],
+                  //     ),
+                  //   ),
+                  //   const SizedBox(height: 10),
 
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton.icon(
-                        onPressed: _testNotification,
-                        icon: const Icon(Icons.notifications, size: 20),
-                        label: const Text('Send Test Notification'),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blue,
-                          foregroundColor: Colors.white,
-                        ),
-                      ),
-                    ),
+                  //   SizedBox(
+                  //     width: double.infinity,
+                  //     child: ElevatedButton.icon(
+                  //       onPressed: _testNotification,
+                  //       icon: const Icon(Icons.notifications, size: 20),
+                  //       label: const Text('Send Test Notification'),
+                  //       style: ElevatedButton.styleFrom(
+                  //         backgroundColor: Colors.blue,
+                  //         foregroundColor: Colors.white,
+                  //       ),
+                  //     ),
+                  //   ),
                   ],
                 ),
               ),
