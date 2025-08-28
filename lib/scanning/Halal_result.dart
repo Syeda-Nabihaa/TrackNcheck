@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:trackncheck/Services/ApiService.dart';
 import 'package:trackncheck/components/TextWidgets.dart';
 import 'package:trackncheck/components/constants.dart';
+import 'package:trackncheck/components/navigationBar.dart';
 import 'package:trackncheck/controller/ScanHistoryController.dart';
 import 'package:trackncheck/model/ProductModel.dart';
 import 'package:trackncheck/scanning/Halal_checker.dart';
@@ -37,9 +38,10 @@ class _HalalResultPageState extends State<HalalResultPage>
       duration: const Duration(milliseconds: 800),
     )..repeat(reverse: true);
 
-    _scaleAnim = Tween<double>(begin: 0.9, end: 1.1).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
+    _scaleAnim = Tween<double>(
+      begin: 0.9,
+      end: 1.1,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
   }
 
   @override
@@ -53,9 +55,10 @@ class _HalalResultPageState extends State<HalalResultPage>
 
     if (data != null && scanHistoryController.isUserLoggedIn) {
       final isHaram = halalChecker.isProductHaram(data.toMap());
-      final resultSummary = isHaram
-          ? '⚠️ Possibly Haram - ${data.name ?? 'Unknown'}'
-          : '✅ Appears Halal - ${data.name ?? 'Unknown'}';
+      final resultSummary =
+          isHaram
+              ? '⚠️ Possibly Haram - ${data.name ?? 'Unknown'}'
+              : '✅ Appears Halal - ${data.name ?? 'Unknown'}';
 
       await scanHistoryController.saveScan(
         barcode: widget.barcode,
@@ -102,8 +105,11 @@ class _HalalResultPageState extends State<HalalResultPage>
 
     return Scaffold(
       backgroundColor: ColorConstants.bgColor,
-     appBar: AppBar(
-        title: const TitleWidget(text: "Halal/Haram Checker", fontsize: 20),
+      appBar: AppBar(
+        title: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: const TitleWidget(text: "Halal/Haram Checker", fontsize: 20),
+        ),
         backgroundColor: ColorConstants.bgColor,
         elevation: 0,
       ),
@@ -120,17 +126,28 @@ class _HalalResultPageState extends State<HalalResultPage>
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(24),
                   gradient: LinearGradient(
-                    colors: isHaram
-                        ? [Colors.red.shade900, Colors.redAccent.shade200]
-                        : [Colors.green.shade700, Colors.greenAccent.shade200],
+                    // colors: isHaram
+                    //     ? [Colors.red.shade900, Colors.redAccent.shade200]
+                    //     : [Colors.green.shade700, Colors.greenAccent.shade200],
+                    colors:
+                        isHaram
+                            ? [
+                              ColorConstants.fieldsColor,
+                              ColorConstants.cardColor,
+                            ]
+                            : [
+                              ColorConstants.fieldsColor,
+                              ColorConstants.cardColor,
+                            ],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: isHaram
-                          ? Colors.red.withOpacity(0.3)
-                          : Colors.green.withOpacity(0.3),
+                      color:
+                          isHaram
+                              ? Colors.red.withOpacity(0.3)
+                              : Colors.green.withOpacity(0.3),
                       blurRadius: 16,
                       offset: const Offset(0, 6),
                     ),
@@ -146,7 +163,7 @@ class _HalalResultPageState extends State<HalalResultPage>
                             ? Icons.warning_amber_rounded
                             : Icons.check_circle,
                         size: 80,
-                        color: Colors.white,
+                        color: isHaram ? Colors.red : Colors.green,
                       ),
                     ),
                     const SizedBox(height: 16),
@@ -175,21 +192,20 @@ class _HalalResultPageState extends State<HalalResultPage>
                         padding: EdgeInsets.only(top: 10),
                         child: Text(
                           "✔️ Halal certification or label detected",
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.white70,
-                          ),
+                          style: TextStyle(fontSize: 16, color: Colors.white70),
                         ),
                       ),
                     const SizedBox(height: 20),
                     ElevatedButton.icon(
-                      onPressed: () => Get.back(),
+                      onPressed: () => Get.offAll(Navigationbar()),
                       icon: const Icon(Icons.arrow_back),
                       label: const Text("Go Back"),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.white,
                         foregroundColor:
-                            isHaram ? Colors.red.shade700 : Colors.green.shade700,
+                            isHaram
+                                ? Colors.red.shade700
+                                : Colors.green.shade700,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),

@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:trackncheck/Services/ApiService.dart';
-import 'package:trackncheck/components/AlertWidget.dart';
-import 'package:trackncheck/components/Button.dart';
 import 'package:trackncheck/components/Card.dart';
-import 'package:trackncheck/components/TextWidgets.dart';
 import 'package:trackncheck/components/constants.dart';
 import 'package:trackncheck/model/ProductModel.dart';
 import 'package:trackncheck/scanning/Halal_result.dart';
@@ -30,7 +27,7 @@ class _ResultPageState extends State<ResultPage> {
     final result = await Get.to(() => const ScanPage());
     if (result != null) {
       if (mode == "halal") {
-        Get.to(() => HalalResultPage(barcode: result));
+        Get.offAll(() => HalalResultPage(barcode: result));
       } else if (mode == "boycott") {
         final product = await fetchFromAllApis(result);
 
@@ -38,7 +35,7 @@ class _ResultPageState extends State<ResultPage> {
           final brandTag = product.brand?.toLowerCase().trim() ?? "";
 
           if (brandTag.isNotEmpty) {
-            Get.to(() => BoycottCheckerWidget(scannedBrand: brandTag));
+            Get.offAll(() => BoycottCheckerWidget(scannedBrand: brandTag));
           } else {
             Get.snackbar("Error", "Brand not found for this product" ,backgroundColor: Colors.white);
           }
@@ -46,7 +43,7 @@ class _ResultPageState extends State<ResultPage> {
           Get.snackbar("Error", "Product not found in database", backgroundColor: Colors.white);
         }
       } else {
-        Get.to(() => ProductDetailsPage(barcode: result));
+        Get.offAll(() => ProductDetailsPage(barcode: result));
       }
     }
   }

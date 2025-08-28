@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:trackncheck/components/TextWidgets.dart';
+import 'package:trackncheck/components/navigationBar.dart';
 import 'package:trackncheck/controller/ScanHistoryController.dart';
 import 'package:trackncheck/controller/BoycottedProductController.dart';
 import 'package:trackncheck/components/constants.dart';
@@ -84,7 +85,10 @@ class _BoycottCheckerWidgetState extends State<BoycottCheckerWidget>
     return Scaffold(
       backgroundColor: ColorConstants.bgColor,
       appBar: AppBar(
-        title: const TitleWidget(text: "Boycott Checker", fontsize: 20),
+        title: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: const TitleWidget(text: "Boycott Checker", fontsize: 20),
+        ),
         backgroundColor: ColorConstants.bgColor,
         elevation: 0,
       ),
@@ -101,9 +105,19 @@ class _BoycottCheckerWidgetState extends State<BoycottCheckerWidget>
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(24),
                   gradient: LinearGradient(
-                    colors: isBoycotted
-                        ? [Colors.red.shade900, Colors.redAccent.shade200]
-                        : [Colors.green.shade700, Colors.greenAccent.shade200],
+                    // colors: isBoycotted
+                    //     ? [Colors.red.shade900, Colors.redAccent.shade200]
+                    //     : [Colors.green.shade700, Colors.greenAccent.shade200],
+                     colors:
+                        isBoycotted
+                            ? [
+                              ColorConstants.fieldsColor,
+                              ColorConstants.cardColor,
+                            ]
+                            : [
+                              ColorConstants.fieldsColor,
+                              ColorConstants.cardColor,
+                            ],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
@@ -125,7 +139,7 @@ class _BoycottCheckerWidgetState extends State<BoycottCheckerWidget>
                       child: Icon(
                         isBoycotted ? Icons.warning_amber_rounded : Icons.check_circle,
                         size: 80,
-                        color: Colors.white,
+                        color: isBoycotted ? Colors.red : Colors.green,
                       ),
                     ),
                     const SizedBox(height: 16),
@@ -147,9 +161,10 @@ class _BoycottCheckerWidgetState extends State<BoycottCheckerWidget>
                         color: Colors.white70,
                       ),
                     ),
+                                        SizedBox(height: 10,),
                     if (isBoycotted)
                     ElevatedButton.icon(
-                      onPressed: () => Get.back(),
+                      onPressed: () => Get.offAll(Navigationbar()),
                       icon: const Icon(Icons.arrow_back),
                       label: const Text("Go Back"),
                       style: ElevatedButton.styleFrom(
