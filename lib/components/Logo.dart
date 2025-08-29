@@ -3,7 +3,10 @@ import 'package:trackncheck/components/CustomAvatar.dart';
 import 'package:trackncheck/components/constants.dart';
 
 class LogoWidget extends StatelessWidget {
-  const LogoWidget({super.key});
+  final double radius;
+  final double size;
+  final double fontSize;
+  const LogoWidget({super.key, required this.radius, required this.size, required this.fontSize});
 
   @override
   Widget build(BuildContext context) {
@@ -11,15 +14,15 @@ class LogoWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
          Customavatar(
-              radius: 90,
+              radius: radius,
               icon: Icons.account_tree_outlined,
-              size: 100,
+              size: size,
             ),
             SizedBox(height: 20),
            RichText(text: TextSpan(
             text: "Track",
              style: TextStyle(
-                    fontSize: 40,
+                    fontSize: fontSize,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                     height: 1.5,

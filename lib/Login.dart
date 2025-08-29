@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:trackncheck/Services/LoginAuth.dart';
 import 'package:trackncheck/components/Button.dart';
 import 'package:trackncheck/components/InputFields.dart';
+import 'package:trackncheck/components/Logo.dart';
 import 'package:trackncheck/components/TextWidgets.dart';
 import 'package:trackncheck/components/constants.dart';
 import 'package:trackncheck/controller/LogInController.dart';

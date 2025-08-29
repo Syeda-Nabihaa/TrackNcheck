@@ -46,7 +46,7 @@ class _SplashScreenState extends State<SplashScreen> {
           //     ),
           //   ),
           // ),
-          Center(child: Positioned(child: LogoWidget())),
+          Center(child: Positioned(child: LogoWidget(radius: 90, size: 100, fontSize: 40,))),
         ],
       ),
     );
